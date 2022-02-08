@@ -1,23 +1,37 @@
 import React, { useState } from "react";
 
+import Data from "../../utils/Data";
+
 export const CourseManagerContext = React.createContext();
 
 export const Provider = (props) => {
+  const data = new Data();
   const [name, setName] = useState("Chris");
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const handleChangeName = () => {
     const exampleName = "Dave";
     setName(exampleName);
   };
 
+  const value = {
+    name,
+    data,
+    actions: {
+      changeName: handleChangeName,
+    },
+  };
+
   return (
     <CourseManagerContext.Provider
-      value={{
-        name,
-        actions: {
-          changeName: handleChangeName,
-        },
-      }}
+      // value={{
+      //   name,
+      //   isLoggedIn,
+      //   actions: {
+      //     changeName: handleChangeName,
+      //   },
+      // }}
+      value={value}
     >
       {props.children}
     </CourseManagerContext.Provider>

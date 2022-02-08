@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CourseManagerContext } from "./Context/index";
 
-export const Header = () => {
+const Header = () => {
   const { name } = useContext(CourseManagerContext);
   const loggedIn = true;
   return (
@@ -16,7 +16,7 @@ export const Header = () => {
             <ul className="header--signedin">
               <li>Welcome, {name}!</li>
               <li>
-                <Link to="/sign-out"></Link>Sign Out
+                <Link to="/">Sign Out</Link>
               </li>
             </ul>
           ) : (
@@ -34,3 +34,5 @@ export const Header = () => {
     </header>
   );
 };
+
+export default Header;

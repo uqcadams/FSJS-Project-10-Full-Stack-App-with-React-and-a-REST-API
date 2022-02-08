@@ -4,11 +4,15 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // testing the fetching
 import axios from "axios";
 
-import Welcome from "./components/Welcome";
+import Header from "./components/Header";
 import CourseList from "./components/CourseList";
-import { Header } from "./components/Header";
 import CourseDetail from "./components/CourseDetail";
 import CreateCourse from "./components/CreateCourse";
+import Error from "./components/Error";
+import SignIn from "./components/SignIn";
+import SignUp from "./components/SignUp";
+import SignOut from "./components/SignOut";
+import UpdateCourse from "./components/UpdateCourse";
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -33,12 +37,19 @@ const App = () => {
         {isLoading ? <p>Loading course list...</p> : <CourseList data={data} />}
       </div> */}
       <Routes>
-        <Route path="/" element={<CourseList data={data} />} />
+        <Route exact path="/" element={<CourseList data={data} />} />
+        <Route path="/courses/create" element={<CreateCourse data={data} />} />
         <Route
-          path="/courses/:courseId"
-          element={<CourseDetail data={data} />}
+          path="/courses/:id/update"
+          element={<UpdateCourse data={data} />}
         />
-        <Route path="/create-course" element={<CreateCourse data={data} />} />
+        <Route path="/courses/:id" element={<CourseDetail data={data} />} />
+
+        <Route path="/signin" element={<SignIn data={data} />} />
+        <Route path="/signup" element={<SignUp data={data} />} />
+        <Route path="/signout" element={<SignOut />} />
+
+        <Route path="*" element={<Error />} />
       </Routes>
     </Router>
   );
