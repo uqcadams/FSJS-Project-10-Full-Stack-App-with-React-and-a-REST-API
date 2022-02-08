@@ -20,4 +20,4 @@ Full Stack JavaScript Project 10 - Full Stack App with React and a REST API
 1. REST API access point is stored in /config/config.js
 2. This is loaded into /components/Data.jsx and accessed programmatically to access the proper URL for the api requests.
 3. Data.jsx is a helper class representing utility methods to send GET, POST, PUT, and DELETE requests to the REST API
-4.
+4. components/Context/index.js contains a Higher-Order Component that returns a Provider component with application state and method / actions. It establishes context for the app. 

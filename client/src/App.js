@@ -7,6 +7,8 @@ import axios from "axios";
 import Welcome from "./components/Welcome";
 import CourseList from "./components/CourseList";
 import { Header } from "./components/Header";
+import CourseDetail from "./components/CourseDetail";
+import CreateCourse from "./components/CreateCourse";
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -27,10 +29,17 @@ const App = () => {
   return (
     <Router>
       <Header />
-      <Welcome />
-      <div className="course-list">
+      {/* <div className="course-list">
         {isLoading ? <p>Loading course list...</p> : <CourseList data={data} />}
-      </div>
+      </div> */}
+      <Routes>
+        <Route path="/" element={<CourseList data={data} />} />
+        <Route
+          path="/courses/:courseId"
+          element={<CourseDetail data={data} />}
+        />
+        <Route path="/create-course" element={<CreateCourse data={data} />} />
+      </Routes>
     </Router>
   );
 };
