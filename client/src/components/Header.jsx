@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { CourseManagerContext } from "./Context/index";
 
 const Header = () => {
-  const { name } = useContext(CourseManagerContext);
-  const loggedIn = true;
+  const { authenticatedUser } = useContext(CourseManagerContext);
+
   return (
     <header>
       <div className="wrap header--flex">
@@ -12,20 +12,20 @@ const Header = () => {
           <Link to="/">Project 10</Link>
         </h1>
         <nav>
-          {loggedIn ? (
+          {authenticatedUser ? (
             <ul className="header--signedin">
-              <li>Welcome, {name}!</li>
+              <li>Welcome, {authenticatedUser.firstName}!</li>
               <li>
-                <Link to="/">Sign Out</Link>
+                <Link to="/signout">Sign Out</Link>
               </li>
             </ul>
           ) : (
             <ul className="header--signedout">
               <li>
-                <Link to="/sign-up">Sign Up</Link>
+                <Link to="/signup">Sign Up</Link>
               </li>
               <li>
-                <Link to="/sign-in">Sign In</Link>
+                <Link to="/signin">Sign In</Link>
               </li>
             </ul>
           )}

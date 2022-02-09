@@ -35,13 +35,13 @@ const CourseDetail = () => {
     <React.Fragment>
       <div className="actions--bar">
         <div className="wrap">
-          <Link className="button" to="update-course.html">
+          <Link className="button" to={`/courses/${id}/update`}>
             Update Course
           </Link>
           <Link className="button" to="#">
             Delete Course
           </Link>
-          <Link className="button button-secondary" to="/">
+          <Link className="button button-secondary" to="../">
             Return to List
           </Link>
         </div>

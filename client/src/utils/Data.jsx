@@ -59,6 +59,11 @@ export default class Data {
     }
   }
 
+  /**
+   * Sends a GET request to the REST API to fetch specific course details. The params are passed to the api function, which then communicates with the REST API to finalise the request and return the requested data.
+   * @param {number} id - a course ID extracted via params to be associated with a course
+   * @returns {object} representing the course details for the requested course (null, if it doesn't exist)
+   */
   async getCourseById(id) {
     const response = await this.api(`/courses/${id}`, "GET", null);
     if (response.status === 200) {
@@ -84,6 +89,7 @@ export default class Data {
     if (response.status === 200) {
       return response.json().then((data) => data);
     } else if (response.status === 401) {
+      console.log(`Response status from Data.jsx: `, response.status);
       return null;
     } else {
       throw new Error();
@@ -99,7 +105,49 @@ export default class Data {
     if (response.status === 201) {
       return [];
     } else if (response.status === 400) {
+      console.log("There were errors");
       return response.json().then((data) => {
+        console.log(data.errors);
+        return data.errors;
+      });
+    } else {
+      throw new Error();
+    }
+  }
+
+  /**
+   * Utilises the custom api method to perform an async operation to POST a new user
+   * @param {object} user - new user data to be sent to the /users endpoint
+   */
+  async createCourse(course) {
+    const response = await this.api("/courses", "POST", course);
+    if (response.status === 201) {
+      console.log("A course was created");
+      return [];
+    } else if (response.status === 400) {
+      console.log("There were errors");
+      return response.json().then((data) => {
+        console.log(data.errors);
+        return data.errors;
+      });
+    } else {
+      throw new Error();
+    }
+  }
+
+  /**
+   * Utilises the custom api method to perform an async operation to POST a new user
+   * @param {object} user - new user data to be sent to the /users endpoint
+   */
+  async updateCourse(course) {
+    const response = await this.api(`/courses/${course.id}`, "PUT", course);
+    if (response.status === 204) {
+      console.log("A course was updated");
+      return [];
+    } else if (response.status === 400) {
+      console.log("There were errors");
+      return response.json().then((data) => {
+        console.log(data.errors);
         return data.errors;
       });
     } else {

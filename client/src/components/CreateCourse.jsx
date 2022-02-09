@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+
 import Form from "./Form";
 import { Link, useNavigate } from "react-router-dom";
+import { CourseManagerContext } from "./Context/index";
 
 const CreateCourse = () => {
+  const context = useContext(CourseManagerContext);
   let history = useNavigate();
 
   const [courseTitle, setCourseTitle] = useState("");
@@ -33,8 +36,28 @@ const CreateCourse = () => {
   };
 
   const submit = () => {
-    history("/", { replace: true });
+    const course = {
+      courseTitle,
+      courseDescription,
+      estimatedTime,
+      materialsNeeded,
+    };
+    console.log("Course details: ", course);
+    context.data
+      .createCourse(course)
+      .then((errors) => {
+        if (errors.length) {
+          setErrors(errors);
+        } else {
+          console.log("There were no errors");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        history("/error", { replace: true });
+      });
   };
+
   const cancel = () => {
     history("/", { replace: true });
   };

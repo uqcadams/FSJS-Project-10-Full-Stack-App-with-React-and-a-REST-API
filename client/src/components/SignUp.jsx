@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Form from "./Form";
 import { Link, useNavigate } from "react-router-dom";
+import { CourseManagerContext } from "./Context/index";
 
 const SignUp = () => {
+  const context = useContext(CourseManagerContext);
   let history = useNavigate();
 
   const [firstName, setFirstName] = useState("");
@@ -32,11 +34,36 @@ const SignUp = () => {
     }
   };
 
-  const submit = (event) => {
+  const submit = () => {
     const user = { firstName, lastName, emailAddress, password };
     console.log(user);
-
-    // history("/", { replace: true });
+    context.data
+      .createUser(user)
+      .then((errors) => {
+        if (errors.length) {
+          setErrors(errors);
+        } else {
+          // console.log("Account has been created");
+          // history("/", { replace: true });
+          context.actions
+            .signIn(emailAddress, password)
+            .then((user) => {
+              if (user === null) {
+                setErrors(["Sign-in was unsuccesful"]);
+              } else {
+                console.log("Sign-in was successful");
+                history("/authenticated", { replace: true });
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        history("/error", { replace: true });
+      });
   };
   const cancel = () => {
     history("/", { replace: true });
@@ -89,7 +116,7 @@ const SignUp = () => {
       />
 
       <p>
-        Already have a user account? <Link to="/sign-in">Click here</Link> to
+        Already have a user account? <Link to="/signin">Click here</Link> to
         sign in!
       </p>
     </div>

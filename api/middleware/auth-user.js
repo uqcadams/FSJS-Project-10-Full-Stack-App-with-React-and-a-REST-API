@@ -51,7 +51,7 @@ exports.authenticateUser = async (req, res, next) => {
   if (message) {
     // Deny access and inform the user
     console.log(logErrorFont, "User authentication error: ", message);
-    res.status(401).json({ message: "Access Denied!" });
+    res.status(401).json({ error: message });
   } else {
     // Continue to the appropriate route
     next();

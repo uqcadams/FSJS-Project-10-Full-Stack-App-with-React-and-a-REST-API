@@ -11,7 +11,7 @@ const CourseList = (props) => {
       <Link
         className="course--module course--link"
         key={index}
-        to={`/courses/${index}`}
+        to={`/courses/${index + 1}`}
       >
         <h2 className="course--label">Course</h2>
         <h3 className="course--title">{course.title}</h3>
@@ -24,7 +24,7 @@ const CourseList = (props) => {
       {courses}
       <Link
         className="course--module course--add--module"
-        to={`/course/create`}
+        to={`/courses/create`}
       >
         <span className="course--add--title">
           <svg

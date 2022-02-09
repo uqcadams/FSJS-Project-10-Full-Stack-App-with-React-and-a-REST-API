@@ -7,7 +7,6 @@ const UpdateCourse = () => {
   const { id } = useParams();
   const context = useContext(CourseManagerContext);
   let history = useNavigate();
-  const name = "Chris Adams";
 
   // State Management
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +15,8 @@ const UpdateCourse = () => {
   const [courseDescription, setCourseDescription] = useState("");
   const [estimatedTime, setEstimatedTime] = useState("");
   const [materialsNeeded, setMaterialsNeeded] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [errors, setErrors] = useState([]);
 
   const change = (event) => {
@@ -40,7 +41,28 @@ const UpdateCourse = () => {
   };
 
   const submit = () => {
-    history("/", { replace: true });
+    const course = {
+      id,
+      courseTitle,
+      courseDescription,
+      estimatedTime,
+      materialsNeeded,
+    };
+    context.data
+      .updateCourse(course)
+      .then((errors) => {
+        if (errors.length) {
+          console.log("Errors occured when updating a course");
+          setErrors(errors);
+        } else {
+          console.log("Course updated successfully");
+          history(`/courses/${id}`, { replace: true });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        history("/error", { replace: true });
+      });
   };
   const cancel = () => {
     history("/", { replace: true });
@@ -59,6 +81,8 @@ const UpdateCourse = () => {
         setCourseDescription(course.description);
         setEstimatedTime(course.estimatedTime);
         setMaterialsNeeded(course.materialsNeeded);
+        setFirstName(course.associatedUser.firstName);
+        setLastName(course.associatedUser.lastName);
         setCourseData(course);
       })
       .catch((err) => {
@@ -93,8 +117,7 @@ const UpdateCourse = () => {
               placeholder="Course Title"
             />
             <p>
-              By {courseData.associatedUser.firstName}{" "}
-              {courseData.associatedUser.lastName}
+              By {firstName} {lastName}
             </p>
             <textarea
               id="courseDescription"

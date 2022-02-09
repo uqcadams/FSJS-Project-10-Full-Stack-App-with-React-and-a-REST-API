@@ -6,49 +6,51 @@ export const CourseManagerContext = React.createContext();
 
 export const Provider = (props) => {
   const data = new Data();
-  const [name, setName] = useState("Chris");
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [authenticatedUser, setAuthenticatedUser] = useState(null);
 
-  const handleChangeName = () => {
-    const exampleName = "Dave";
-    setName(exampleName);
+  /**
+   * User sign in and authentication function. Updates context with the current authenticated user credentials.
+   * If the username and password passed to the function pass the authentication tests, global state is updated to include the authenticated user credentials via the React Context API.
+   * @param {string} username - the username (email) to be authenticated
+   * @param {string} password - the password to match during authentication
+   * @returns user authentication credentials.
+   */
+  const handleSignIn = async (username, password) => {
+    const user = await data.getUser(username, password);
+    if (user !== null) {
+      console.log("User was authenticated");
+      setAuthenticatedUser(user);
+    } else {
+      console.log("user was not authenticated");
+    }
+    return user;
   };
 
+  /**
+   * User sign out function. Resets authenticated user credentials to null in the global state via the React Context API.
+   * Without authentication, a new user will need to sign in again to access protected routes.
+   */
+  const handleSignOut = () => {
+    setAuthenticatedUser(null);
+  };
+
+  /**
+   * @param {object} value - an object containing the context to be shared throughout the component tree
+   */
   const value = {
-    name,
+    authenticatedUser,
     data,
     actions: {
-      changeName: handleChangeName,
+      signOut: handleSignOut,
+      signIn: handleSignIn,
     },
   };
 
   return (
-    <CourseManagerContext.Provider
-      // value={{
-      //   name,
-      //   isLoggedIn,
-      //   actions: {
-      //     changeName: handleChangeName,
-      //   },
-      // }}
-      value={value}
-    >
+    <CourseManagerContext.Provider value={value}>
       {props.children}
     </CourseManagerContext.Provider>
   );
 };
+
 export const Consumer = CourseManagerContext.Consumer;
-
-/* 
-
-Build log:
-
-1. Defined file structure - client/src/components/Context/index.jsx 
-2. Import React
-3. Initialise new context - adopted CourseManagerContext to provide semantic meaning
-4. Assign provider to a Provider variable
-5. Assign consumer to a Consumer variable
-6. Ensured the Provider and Consumer can be exported and accessed elsewhere.
-7. Imported Provider into the parent app component (client/src/App.js)
-
-*/

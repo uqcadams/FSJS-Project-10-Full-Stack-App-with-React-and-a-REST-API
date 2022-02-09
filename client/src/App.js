@@ -13,6 +13,7 @@ import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import SignOut from "./components/SignOut";
 import UpdateCourse from "./components/UpdateCourse";
+import Authenticated from "./components/Authenticated";
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -46,6 +47,7 @@ const App = () => {
         <Route path="/courses/:id" element={<CourseDetail data={data} />} />
 
         <Route path="/signin" element={<SignIn data={data} />} />
+        <Route path="/authenticated" element={<Authenticated data={data} />} />
         <Route path="/signup" element={<SignUp data={data} />} />
         <Route path="/signout" element={<SignOut />} />
 

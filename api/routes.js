@@ -223,12 +223,10 @@ router.post("/courses", authenticateUser, async (req, res) => {
         logErrorFont,
         "An error occurred while attempting to add a new course record to the database."
       );
-      res
-        .status(500)
-        .json({
-          message:
-            "An error occurred while attempting to add a new course record to the database.",
-        });
+      res.status(500).json({
+        message:
+          "An error occurred while attempting to add a new course record to the database.",
+      });
     }
   }
 });
@@ -236,6 +234,7 @@ router.post("/courses", authenticateUser, async (req, res) => {
 // UPDATE specific course
 router.put("/courses/:id", authenticateUser, userIsOwner, async (req, res) => {
   try {
+    console.log("ATTEMPTING TO UPDATE COURSE");
     // Define input validation fields
     const validationFields = ["title", "description"];
 
@@ -316,5 +315,32 @@ router.delete(
     }
   }
 );
+
+// DELETE specific course
+// router.delete("/user/:id", async (req, res) => {
+//   try {
+//     // Attempt to destroy the corresponding course from the dataset.
+//     await User.destroy({
+//       where: {
+//         id: req.params.id,
+//       },
+//     });
+//     console.log(
+//       logSuccessFont,
+//       "The record was successfully deleted from the dataset."
+//     );
+//     res.status(204).end();
+//   } catch (error) {
+//     console.log(
+//       logErrorFont,
+//       "An error occurred while attempting to delete the record from the dataset."
+//     );
+//     res.status(400).json({
+//       message:
+//         "An error has occurred while attempting to delete the record from the dataset",
+//       error,
+//     });
+//   }
+// });
 
 module.exports = router;
