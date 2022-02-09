@@ -7,7 +7,8 @@ const Authenticated = () => {
   return (
     <div className="wrap">
       <div>
-        You have been authenticated, {context.authenticatedUser.firstName}!
+        You have been authenticated,
+        {/* {context.authenticatedUser.firstName}! */}
       </div>
       <Link to="../">Return to Dashboard</Link>
     </div>

@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+import axios from "axios";
+
 const CourseList = (props) => {
-  const results = props.data;
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/api/courses`)
+      .then((response) => {
+        console.log("Data returned: ", response.data);
+        setData(response.data);
+      })
+      .catch((err) => console.log("An error occured."))
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
   let courses;
 
-  if (results.length) {
+  if (data.length) {
     console.log("There are courses");
-    courses = results.map((course, index) => (
+    courses = data.map((course, index) => (
       <Link
         className="course--module course--link"
         key={index}

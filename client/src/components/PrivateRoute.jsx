@@ -1,12 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
-import React, { useContext } from "react";
-import { CourseManagerContext } from "./Context";
+import React from "react";
+import { Navigate } from "react-router-dom";
 
-export default ({ component: Component, ...rest }) => {
-  const context = useContext(CourseManagerContext);
-  const hocComponent = ({ ...props }) => <WrappedComponent {...props} />;
-
-  hocComponent.propTypes = {};
-
-  return hocComponent;
-};
+export default function PrivateRoute({ children, ...rest }) {
+  const auth = true;
+  return auth ? children : <Navigate to="/login" />;
+}
