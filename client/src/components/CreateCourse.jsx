@@ -80,6 +80,12 @@ const CreateCourse = () => {
               onChange={change}
               placeholder="Course Title"
             />
+            <p>
+              By{" "}
+              {context.authenticatedUser.firstName +
+                " " +
+                context.authenticatedUser.lastName}
+            </p>
             <textarea
               id="courseDescription"
               name="courseDescription"

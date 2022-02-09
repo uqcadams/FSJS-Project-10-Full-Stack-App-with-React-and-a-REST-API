@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-// testing the fetching
-import axios from "axios";
-
 import Header from "./components/Header";
 import CourseList from "./components/CourseList";
 import CourseDetail from "./components/CourseDetail";
@@ -22,8 +19,15 @@ const App = () => {
       <Header />
 
       <Routes>
-        <Route exact path="/" element={<CourseList />} />
-        <Route path="/courses/create" element={<CreateCourse />} />
+        <Route path="/" element={<CourseList />} />
+        <Route
+          path="/courses/create"
+          element={
+            <PrivateRoute>
+              <CreateCourse />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/courses/:id/update"
           element={

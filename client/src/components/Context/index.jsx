@@ -7,6 +7,7 @@ export const CourseManagerContext = React.createContext();
 export const Provider = (props) => {
   const data = new Data();
   const [authenticatedUser, setAuthenticatedUser] = useState(null);
+  const [auth, setAuth] = useState(false);
 
   /**
    * User sign in and authentication function. Updates context with the current authenticated user credentials.
@@ -20,6 +21,7 @@ export const Provider = (props) => {
     if (user !== null) {
       console.log("User was authenticated");
       setAuthenticatedUser(user);
+      setAuth(true);
     } else {
       console.log("user was not authenticated");
     }
@@ -32,6 +34,7 @@ export const Provider = (props) => {
    */
   const handleSignOut = () => {
     setAuthenticatedUser(null);
+    setAuth(false);
   };
 
   /**
@@ -39,6 +42,7 @@ export const Provider = (props) => {
    */
   const value = {
     authenticatedUser,
+    auth,
     data,
     actions: {
       signOut: handleSignOut,

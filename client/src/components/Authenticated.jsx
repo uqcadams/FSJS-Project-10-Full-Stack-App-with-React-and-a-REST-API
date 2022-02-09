@@ -1,14 +1,30 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { CourseManagerContext } from "./Context";
 
 const Authenticated = () => {
   const context = useContext(CourseManagerContext);
+  const history = useNavigate();
+  const [timer, setTimer] = useState(10);
+
+  useEffect(() => {
+    if (timer > 0) {
+      const interval = setInterval(() => {
+        setTimer((timer) => timer - 1);
+        console.log("This will run every second!");
+      }, 1000);
+      return () => clearInterval(interval);
+    } else {
+      console.log("timer is up!");
+      history("/", { forced: true });
+    }
+  });
+
   return (
     <div className="wrap">
       <div>
         You have been authenticated,
-        {/* {context.authenticatedUser.firstName}! */}
+        {context.authenticatedUser.firstName}! Timer: {timer}
       </div>
       <Link to="../">Return to Dashboard</Link>
     </div>
