@@ -58,7 +58,7 @@ const SignIn = () => {
   //     });
   // };
 
-  // NEW FIX
+  // NEW FIXES
   const submit = () => {
     context.actions
       .signIn(emailAddress, password)
