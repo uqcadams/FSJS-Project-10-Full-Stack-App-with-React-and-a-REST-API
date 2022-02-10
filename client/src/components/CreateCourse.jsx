@@ -1,15 +1,16 @@
 import React, { useState, useContext } from "react";
 
 import Form from "./Form";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CourseManagerContext } from "./Context/index";
 
 const CreateCourse = () => {
   const context = useContext(CourseManagerContext);
+  const authUser = context.authenticatedUser;
   let history = useNavigate();
 
-  const [courseTitle, setCourseTitle] = useState("");
-  const [courseDescription, setCourseDescription] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [estimatedTime, setEstimatedTime] = useState("");
   const [materialsNeeded, setMaterialsNeeded] = useState("");
   const [errors, setErrors] = useState([]);
@@ -18,11 +19,11 @@ const CreateCourse = () => {
     const value = event.target.value;
 
     switch (event.target.name) {
-      case "courseTitle":
-        setCourseTitle(value);
+      case "title":
+        setTitle(value);
         break;
-      case "courseDescription":
-        setCourseDescription(value);
+      case "description":
+        setDescription(value);
         break;
       case "estimatedTime":
         setEstimatedTime(value);
@@ -37,19 +38,22 @@ const CreateCourse = () => {
 
   const submit = () => {
     const course = {
-      courseTitle,
-      courseDescription,
+      title,
+      description,
       estimatedTime,
       materialsNeeded,
+      userId: authUser.id,
     };
-    console.log("Course details: ", course);
+    const emailAddress = context.authenticatedUser.emailAddress;
+    const password = context.authenticatedUser.password;
+
     context.data
-      .createCourse(course)
+      .createCourse(course, emailAddress, password)
       .then((errors) => {
         if (errors.length) {
           setErrors(errors);
         } else {
-          console.log("There were no errors");
+          history(-1);
         }
       })
       .catch((err) => {
@@ -73,10 +77,10 @@ const CreateCourse = () => {
         elements={() => (
           <React.Fragment>
             <input
-              id="courseTitle"
-              name="courseTitle"
+              id="title"
+              name="title"
               type="text"
-              value={courseTitle}
+              value={title}
               onChange={change}
               placeholder="Course Title"
             />
@@ -87,10 +91,10 @@ const CreateCourse = () => {
                 context.authenticatedUser.lastName}
             </p>
             <textarea
-              id="courseDescription"
-              name="courseDescription"
+              id="description"
+              name="description"
               type="text"
-              value={courseDescription}
+              value={description}
               onChange={change}
               placeholder="Course Description"
             />

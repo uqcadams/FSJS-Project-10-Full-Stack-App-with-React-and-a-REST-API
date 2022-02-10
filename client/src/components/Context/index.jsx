@@ -20,6 +20,7 @@ export const Provider = (props) => {
     const user = await data.getUser(username, password);
     if (user !== null) {
       console.log("User was authenticated");
+      user.password = password;
       setAuthenticatedUser(user);
       setAuth(true);
     } else {

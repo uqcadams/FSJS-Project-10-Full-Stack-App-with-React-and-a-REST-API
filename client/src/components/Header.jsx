@@ -16,6 +16,12 @@ const Header = () => {
             <ul className="header--signedin">
               <li>Welcome, {authenticatedUser.firstName}!</li>
               <li>
+                <Link to="/mycourses">My Courses</Link>
+              </li>
+              <li>
+                <Link to="/">All Courses</Link>
+              </li>
+              <li>
                 <Link to="/signout">Sign Out</Link>
               </li>
             </ul>

@@ -9,7 +9,7 @@ export default class Data {
    * @param {string} method - an HTTP method (eg "GET", "POST", "PUT", "DELETE")
    * @param {object} body - any data associated with the quest
    * @param {boolean} requiresAuth - a boolean indicating whether authorisation is required for the resource
-   * @param {object} credentials - an object containing the username and password information of the user
+   * @param {object} credentials - an object containing the emailAddress and password information of the user
    * @returns {promise} - a promise that resolves to a Response object representing the response to your request
    */
   api(
@@ -38,7 +38,7 @@ export default class Data {
       // Encode the user credentials
       // The btoa() method creates a base-64 encoded ASCII string
       const encodedCredentials = btoa(
-        `${credentials.username}:${credentials.password}`
+        `${credentials.emailAddress}:${credentials.password}`
       );
 
       // Add an authorization header to the options to be provided
@@ -51,10 +51,28 @@ export default class Data {
   async getCourses() {
     const response = await this.api(`/courses`, "GET");
     if (response.status === 200) {
+      console.log(`Data.jsx - Status 200`);
       return response.json().then((data) => data);
     } else if (response.status === 401) {
+      console.log(`Data.jsx - Status 401`);
       return null;
     } else {
+      console.log(`Data.jsx - New error`);
+      throw new Error();
+    }
+  }
+
+  async getMyCourses(userId) {
+    console.log(userId);
+    const response = await this.api(`/mycourses/${userId}`, "GET");
+    if (response.status === 200) {
+      console.log(`Data.jsx - Status 200`);
+      return response.json().then((data) => data);
+    } else if (response.status === 401) {
+      console.log(`Data.jsx - Status 401`);
+      return null;
+    } else {
+      console.log(`Data.jsx - New error`);
       throw new Error();
     }
   }
@@ -77,13 +95,13 @@ export default class Data {
 
   /**
    * Utilises the custom api method to perform an async operation to GET an authenticated user
-   * @param {*} username -
+   * @param {*} emailAddress -
    * @param {*} password -
    * @returns {object} - JSON object containing user credentials
    */
-  async getUser(username, password) {
+  async getUser(emailAddress, password) {
     const response = await this.api(`/users`, "GET", null, true, {
-      username,
+      emailAddress,
       password,
     });
     if (response.status === 200) {
@@ -119,8 +137,17 @@ export default class Data {
    * Utilises the custom api method to perform an async operation to POST a new user
    * @param {object} user - new user data to be sent to the /users endpoint
    */
-  async createCourse(course) {
-    const response = await this.api("/courses", "POST", course);
+  async createCourse(course, emailAddress, password) {
+    console.log(
+      `You are passing these credentials in Data.jsx: `,
+      emailAddress
+    );
+    console.log(`You are passing these credentials in Data.jsx: `, password);
+    const response = await this.api("/courses", "POST", course, true, {
+      emailAddress,
+      password,
+    });
+    console.log(response);
     if (response.status === 201) {
       console.log("A course was created");
       return [];
@@ -139,8 +166,39 @@ export default class Data {
    * Utilises the custom api method to perform an async operation to POST a new user
    * @param {object} user - new user data to be sent to the /users endpoint
    */
-  async updateCourse(course) {
-    const response = await this.api(`/courses/${course.id}`, "PUT", course);
+  async updateCourse(course, emailAddress, password) {
+    const response = await this.api(
+      `/courses/${course.id}`,
+      "PUT",
+      course,
+      true,
+      { emailAddress, password }
+    );
+    if (response.status === 204) {
+      console.log("A course was updated");
+      return [];
+    } else if (response.status === 400) {
+      console.log("There were errors");
+      return response.json().then((data) => {
+        console.log(data.errors);
+        return data.errors;
+      });
+    } else {
+      throw new Error();
+    }
+  }
+
+  async deleteCourse(courseId, emailAddress, password) {
+    const response = await this.api(
+      `/courses/${courseId}`,
+      "DELETE",
+      null,
+      true,
+      {
+        emailAddress,
+        password,
+      }
+    );
     if (response.status === 204) {
       console.log("A course was updated");
       return [];

@@ -12,6 +12,7 @@ import SignOut from "./components/SignOut";
 import UpdateCourse from "./components/UpdateCourse";
 import Authenticated from "./components/Authenticated";
 import PrivateRoute from "./components/PrivateRoute";
+import MyCourses from "./components/MyCourses";
 
 const App = () => {
   return (
@@ -19,7 +20,13 @@ const App = () => {
       <Header />
 
       <Routes>
+        {/* NOTE: */}
         <Route path="/" element={<CourseList />} />
+
+        {/* NOTE: */}
+        <Route path="/mycourses" element={<MyCourses />} />
+
+        {/* NOTE: */}
         <Route
           path="/courses/create"
           element={
@@ -28,6 +35,8 @@ const App = () => {
             </PrivateRoute>
           }
         />
+
+        {/* NOTE: */}
         <Route
           path="/courses/:id/update"
           element={
@@ -36,9 +45,14 @@ const App = () => {
             </PrivateRoute>
           }
         />
+
+        {/* NOTE: */}
         <Route path="/courses/:id" element={<CourseDetail />} />
 
+        {/* NOTE: */}
         <Route path="/signin" element={<SignIn />} />
+
+        {/* NOTE: */}
         <Route
           path="/authenticated"
           element={
@@ -47,9 +61,14 @@ const App = () => {
             </PrivateRoute>
           }
         />
+
+        {/* STATUS: FUNCTIONAL - NOTE: Creates a new user and logs them into the system */}
         <Route path="/signup" element={<SignUp />} />
+
+        {/* STATUS: FUNCTIONAL - NOTE: Renders signout component. Mounts a function call to wipe authentication settings and redirect to home page. */}
         <Route path="/signout" element={<SignOut />} />
 
+        {/* STATUS: FUNCTIONAL - NOTE: Error handling route - if url is not an exact match, render error component */}
         <Route path="*" element={<Error />} />
       </Routes>
     </Router>

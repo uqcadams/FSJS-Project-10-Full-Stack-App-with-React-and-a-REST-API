@@ -16,8 +16,10 @@ exports.authenticateUser = async (req, res, next) => {
   // Initialise an empty variable to store the custom response message.
   let message = "";
 
+  console.log(req.body);
   // Parse the users credentials from the Authorization header
   const credentials = auth(req);
+  console.log(credentials);
 
   // If credentials are returned...
   if (credentials) {
@@ -34,6 +36,7 @@ exports.authenticateUser = async (req, res, next) => {
       // If the passwords match and the user is authenticated...
       if (authenticated) {
         console.log(
+          logSuccessFont,
           `Authentication successful for user with email: ${user.emailAddress}`
         );
         req.currentUser = user;
