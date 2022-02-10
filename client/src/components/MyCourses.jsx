@@ -2,18 +2,18 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 
-import axios from "axios";
 import { CourseManagerContext } from "./Context/index";
 
-const CourseList = (props) => {
+const MyCourses = (props) => {
   const context = useContext(CourseManagerContext);
   const history = useNavigate();
   const authUser = context.authenticatedUser;
+  console.log(authUser);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     context.data
-      .getCourses()
+      .getMyCourses(authUser.id)
       .then((response) => {
         console.log("Data returned: ", response);
         setData(response);
@@ -74,4 +74,4 @@ const CourseList = (props) => {
   );
 };
 
-export default CourseList;
+export default MyCourses;

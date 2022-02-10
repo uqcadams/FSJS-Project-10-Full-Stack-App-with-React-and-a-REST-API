@@ -7,8 +7,11 @@ const CourseDetail = () => {
   const { id } = useParams();
   let history = useNavigate();
   const context = useContext(CourseManagerContext);
+  const authUser = context.authenticatedUser;
   const [courseData, setCourseData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   console.log(`Loading state: ${isLoading}`);
   useEffect(() => {
@@ -29,23 +32,81 @@ const CourseDetail = () => {
       });
   }, [context.data, history, id]);
 
+  const handleDeleteConfirmation = () => {
+    switch (deleteConfirmation) {
+      case true:
+        setDeleteConfirmation(false);
+        break;
+      default:
+        setDeleteConfirmation(true);
+        break;
+    }
+  };
+
+  const handleDeleteCourse = () => {
+    const emailAddress = context.authenticatedUser.emailAddress;
+    const password = context.authenticatedUser.password;
+    context.data
+      .deleteCourse(id, emailAddress, password)
+      .then((errors) => {
+        if (errors.length) {
+          console.log("Errors occured when deleting a course");
+          setErrors(errors);
+        } else {
+          console.log("Course updated successfully");
+          history(`/`, { replace: true });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        history("/error", { replace: true });
+      });
+  };
+
   return isLoading ? (
     <h2> Loading... </h2>
   ) : (
     <React.Fragment>
       <div className="actions--bar">
         <div className="wrap">
-          <Link className="button" to={`/courses/${id}/update`}>
-            Update Course
-          </Link>
-          <Link className="button" to={`/courses/${id}/delete`}>
-            Delete Course
-          </Link>
+          {authUser && authUser.id === courseData.userId ? (
+            <React.Fragment>
+              <Link className="button" to={`/courses/${id}/update`}>
+                Update Course
+              </Link>
+              <button className="button" onClick={handleDeleteConfirmation}>
+                Delete Course
+              </button>
+            </React.Fragment>
+          ) : (
+            <></>
+          )}
+
           <Link className="button button-secondary" to="../">
             Return to List
           </Link>
         </div>
       </div>
+      {deleteConfirmation ? (
+        <div className="actions--bar">
+          <div className="wrap">
+            <div>Are you sure you want to delete this course?</div>
+            <br></br>
+            <button className="button" onClick={handleDeleteConfirmation}>
+              No
+            </button>
+
+            <button
+              className="button button-secondary"
+              onClick={handleDeleteCourse}
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
       <div className="wrap">
         <h2>Course Detail</h2>
         <form>
