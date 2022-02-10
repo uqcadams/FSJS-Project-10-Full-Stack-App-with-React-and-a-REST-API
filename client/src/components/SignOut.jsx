@@ -20,6 +20,7 @@ const SignOut = () => {
       history("/", { replace: true });
     }
   });
+
   return (
     <React.Fragment>
       <div className="auth--centered">
@@ -29,11 +30,20 @@ const SignOut = () => {
           you go, {authenticatedUser.firstName}!
         </p>
         <p>Redirecting you to the homepage in...{timer} seconds.</p>
-        <button className="button">
-          <Link to="../">Cancel Sign Out</Link>
+        <button
+          className="button"
+          onClick={() => history(-1, { replace: true })}
+        >
+          Cancel Sign Out
         </button>
-        <button className="button">
-          <Link to="../">Return to Dashboard</Link>
+        <button
+          className="button"
+          onClick={() => {
+            actions.signOut();
+            history("/", { replace: true });
+          }}
+        >
+          Return to Dashboard
         </button>
       </div>
     </React.Fragment>

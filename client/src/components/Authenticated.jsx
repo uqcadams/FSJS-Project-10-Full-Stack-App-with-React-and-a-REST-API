@@ -29,11 +29,14 @@ const Authenticated = () => {
           {context.authenticatedUser.firstName}!
         </p>
         <p>Redirecting you in...{timer} seconds.</p>
-        <button className="button">
-          <Link to="../">Continue...</Link>
+        <button className="button" onClick={() => history(-1)}>
+          Continue...
         </button>
-        <button className="button">
-          <Link to="../">Return to Dashboard</Link>
+        <button
+          className="button"
+          onClick={() => history("/", { replace: true })}
+        >
+          Return to Dashboard
         </button>
       </div>
     </React.Fragment>
