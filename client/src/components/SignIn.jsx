@@ -89,22 +89,28 @@ const SignIn = () => {
         submitButtonText="Sign In"
         elements={() => (
           <React.Fragment>
-            <input
-              id="emailAddress"
-              name="emailAddress"
-              type="emailAddress"
-              value={emailAddress}
-              onChange={change}
-              placeholder="Email Address"
-            />
-            <input
-              id="password"
-              name="password"
-              type="password"
-              value={password}
-              onChange={change}
-              placeholder="Password"
-            />
+            <label>
+              Email Address
+              <input
+                id="emailAddress"
+                name="emailAddress"
+                type="email"
+                value={emailAddress}
+                onChange={change}
+                placeholder="Email Address"
+              />
+            </label>
+            <label>
+              Password
+              <input
+                id="password"
+                name="password"
+                type="password"
+                value={password}
+                onChange={change}
+                placeholder="Password"
+              />
+            </label>
           </React.Fragment>
         )}
       />

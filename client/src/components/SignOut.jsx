@@ -5,7 +5,8 @@ import { CourseManagerContext } from "./Context/index";
 const SignOut = () => {
   let history = useNavigate();
   const { actions } = useContext(CourseManagerContext);
-  const [timer, setTimer] = useState(1);
+  const { authenticatedUser } = useContext(CourseManagerContext);
+  const [timer, setTimer] = useState(100);
   useEffect(() => {
     if (timer > 0) {
       const interval = setInterval(() => {
@@ -21,8 +22,20 @@ const SignOut = () => {
   });
   return (
     <React.Fragment>
-      <div>Signing you out...{timer}</div>
-      <Link to="/">Cancel sign out</Link>
+      <div className="auth--centered">
+        <h2>Signing out...</h2>
+        <p>
+          Signing you out and removing authentication credentials. Sorry to see
+          you go, {authenticatedUser.firstName}!
+        </p>
+        <p>Redirecting you to the homepage in...{timer} seconds.</p>
+        <button className="button">
+          <Link to="../">Cancel Sign Out</Link>
+        </button>
+        <button className="button">
+          <Link to="../">Return to Dashboard</Link>
+        </button>
+      </div>
     </React.Fragment>
   );
 };

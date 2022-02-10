@@ -92,12 +92,15 @@ const CourseDetail = () => {
           <div className="wrap">
             <div>Are you sure you want to delete this course?</div>
             <br></br>
-            <button className="button" onClick={handleDeleteConfirmation}>
+            <button
+              className="button cancel-delete"
+              onClick={handleDeleteConfirmation}
+            >
               No
             </button>
 
             <button
-              className="button button-secondary"
+              className="button button-secondary confirm-delete"
               onClick={handleDeleteCourse}
             >
               Yes

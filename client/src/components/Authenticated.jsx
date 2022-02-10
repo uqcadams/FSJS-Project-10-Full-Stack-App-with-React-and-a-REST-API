@@ -5,7 +5,7 @@ import { CourseManagerContext } from "./Context";
 const Authenticated = () => {
   const context = useContext(CourseManagerContext);
   const history = useNavigate();
-  const [timer, setTimer] = useState(1);
+  const [timer, setTimer] = useState(100);
 
   useEffect(() => {
     if (timer > 0) {
@@ -21,13 +21,22 @@ const Authenticated = () => {
   });
 
   return (
-    <div className="wrap">
-      <div>
-        You have been authenticated,
-        {context.authenticatedUser.firstName}! Timer: {timer}
+    <React.Fragment>
+      <div className="auth--centered">
+        <h2>Authentication Successful!</h2>
+        <p>
+          Your login credentials have been accepted,
+          {context.authenticatedUser.firstName}!
+        </p>
+        <p>Redirecting you in...{timer} seconds.</p>
+        <button className="button">
+          <Link to="../">Continue...</Link>
+        </button>
+        <button className="button">
+          <Link to="../">Return to Dashboard</Link>
+        </button>
       </div>
-      <Link to="../">Return to Dashboard</Link>
-    </div>
+    </React.Fragment>
   );
 };
 

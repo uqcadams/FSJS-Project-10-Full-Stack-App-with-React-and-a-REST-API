@@ -102,7 +102,7 @@ const UpdateCourse = () => {
   return isLoading ? (
     <h2>Loading...</h2>
   ) : (
-    <div className="form--centered">
+    <div className="wrap">
       <h2>Update Course</h2>
 
       <Form
@@ -112,41 +112,59 @@ const UpdateCourse = () => {
         submitButtonText="Update Course"
         elements={() => (
           <React.Fragment>
-            <input
-              id="title"
-              name="title"
-              type="text"
-              value={title}
-              onChange={change}
-              placeholder="Course Title"
-            />
-            <p>
-              By {firstName} {lastName}
-            </p>
-            <textarea
-              id="description"
-              name="description"
-              type="text"
-              value={description}
-              onChange={change}
-              placeholder="Course Description"
-            />
-            <input
-              id="estimatedTime"
-              name="estimatedTime"
-              type="text"
-              value={estimatedTime}
-              onChange={change}
-              placeholder="Estimated Time"
-            />
-            <input
-              id="materialsNeeded"
-              name="materialsNeeded"
-              type="text"
-              value={materialsNeeded}
-              onChange={change}
-              placeholder="Materials Needed"
-            />
+            <div className="main--flex">
+              <div>
+                <label>
+                  Course Title
+                  <input
+                    id="title"
+                    name="title"
+                    type="text"
+                    value={title}
+                    onChange={change}
+                    placeholder="Course Title"
+                  />
+                </label>
+                <p>
+                  By {firstName} {lastName}
+                </p>
+                <label>
+                  Course Description
+                  <textarea
+                    id="description"
+                    name="description"
+                    type="text"
+                    value={description}
+                    onChange={change}
+                    placeholder="Course Description"
+                  />
+                </label>
+              </div>
+              <div>
+                <label>
+                  Estimated Time
+                  <input
+                    id="estimatedTime"
+                    name="estimatedTime"
+                    type="text"
+                    value={estimatedTime}
+                    onChange={change}
+                    placeholder="Estimated Time"
+                  />
+                </label>
+                <label>
+                  Materials Needed
+                  <input
+                    id="materialsNeeded"
+                    name="materialsNeeded"
+                    type="text"
+                    value={materialsNeeded}
+                    onChange={change}
+                    placeholder="Materials Needed"
+                  />
+                </label>
+              </div>
+            </div>
           </React.Fragment>
         )}
       />

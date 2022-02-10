@@ -24,7 +24,14 @@ const App = () => {
         <Route path="/" element={<CourseList />} />
 
         {/* NOTE: */}
-        <Route path="/mycourses" element={<MyCourses />} />
+        <Route
+          path="/mycourses"
+          element={
+            <PrivateRoute>
+              <MyCourses />
+            </PrivateRoute>
+          }
+        />
 
         {/* NOTE: */}
         <Route

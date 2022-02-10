@@ -79,38 +79,51 @@ const SignUp = () => {
         submitButtonText="Sign Up"
         elements={() => (
           <React.Fragment>
-            <input
-              id="firstName"
-              name="firstName"
-              type="text"
-              value={firstName}
-              onChange={change}
-              placeholder="First Name"
-            />
-            <input
-              id="lastName"
-              name="lastName"
-              type="text"
-              value={lastName}
-              onChange={change}
-              placeholder="Last Name"
-            />
-            <input
-              id="emailAddress"
-              name="emailAddress"
-              type="emailAddress"
-              value={emailAddress}
-              onChange={change}
-              placeholder="Email Address"
-            />
-            <input
-              id="password"
-              name="password"
-              type="password"
-              value={password}
-              onChange={change}
-              placeholder="Password"
-            />
+            <label>
+              First Name
+              <input
+                id="firstName"
+                name="firstName"
+                type="text"
+                value={firstName}
+                onChange={change}
+                placeholder="First Name"
+              />
+            </label>
+            <label>
+              Last Name
+              <input
+                id="lastName"
+                name="lastName"
+                type="text"
+                value={lastName}
+                onChange={change}
+                placeholder="Last Name"
+              />
+            </label>
+            <label>
+              Email Address
+              <input
+                id="emailAddress"
+                name="emailAddress"
+                type="email"
+                autoComplete="username"
+                value={emailAddress}
+                onChange={change}
+                placeholder="Email Address"
+              />
+            </label>
+            <label>
+              Password
+              <input
+                id="password"
+                name="password"
+                type="password"
+                value={password}
+                onChange={change}
+                placeholder="Password"
+              />
+            </label>
           </React.Fragment>
         )}
       />
