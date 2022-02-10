@@ -38,7 +38,7 @@ const CourseDetail = () => {
           <Link className="button" to={`/courses/${id}/update`}>
             Update Course
           </Link>
-          <Link className="button" to="#">
+          <Link className="button" to={`/courses/${id}/delete`}>
             Delete Course
           </Link>
           <Link className="button button-secondary" to="../">

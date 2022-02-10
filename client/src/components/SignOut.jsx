@@ -5,7 +5,7 @@ import { CourseManagerContext } from "./Context/index";
 const SignOut = () => {
   let history = useNavigate();
   const { actions } = useContext(CourseManagerContext);
-  const [timer, setTimer] = useState(10);
+  const [timer, setTimer] = useState(1);
   useEffect(() => {
     if (timer > 0) {
       const interval = setInterval(() => {
@@ -16,7 +16,7 @@ const SignOut = () => {
     } else {
       console.log("timer is up!");
       actions.signOut();
-      history("/", { forced: true });
+      history("/", { replace: true });
     }
   });
   return (

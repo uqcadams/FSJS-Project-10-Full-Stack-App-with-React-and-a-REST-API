@@ -84,6 +84,64 @@ const App = () => {
 
 Note that there are three other additional updates in v6 syntax. The `exact` path is no longer valid syntax, as it is not required (all paths now match exactly by default). A route defined with path="_" uses the _ wildcard to match any url in the specified structure and renders content - so, placing it at the end of the route list ensures that any paths that do not exactly match the intended structure will render an <Error /> component. Finally, <Route>s render an element={<Element />} instead of a component={Component}. The element prop accepts a JSX Element, and accepts custom props. As noted in the React Router dev blog, the component prop would trigger a call to `createElement(component)`, which could then only accept props via a manual render prop. Rendering an element takes advantage of <Route>s children property, providing an overall cleaner structure and more maintainable approach to element nesting.
 
+#### Implementing authentication redirect
+
+In this implementation, I've opted to provide visual feedback for the user to reinforce actions and behaviour when signing in and singing out. When the user attempts to access a private route and there is no current authentication header, it will direct them to the sign in page. After successfully signing in, they will be returned to the resource they were attempting to access.
+
+There are again some variations on how this would be implemented under react-router v4/5 and react-router v6.
+
+Under react-router v4, the history object allowed developers to programmatically configure routing by mutating properties in the history stack. Using the push() method on the history object would add a new entry to the history stack, and allow for redirecting. However, the history object would be passed down via props, and would require a Class Component.
+
+```
+// Pushes the "/" route to the top of the history stack, navigating that route when called.
+this.props.history.push('/');
+
+// Shifts the current location to the specific index in the history stack. Passing an argument of -1 would effectively step one back in the history stack, returning the user to the previous page (akin to going "back").
+this.props.history.go(-1);
+```
+
+Under v5, the useHistory() hook would enable access to a history object within functional components, in a similar manner to in previous versions - with somewhat simplified syntax.
+
+```
+import {useHistory} from "react-router-dom";
+
+const UserSignIn = () => {
+  let history = useHistory();
+
+  const handleCancelSignIn = () => {
+    // On cancel, push the '/' route and redirect user to the homepage.
+    history.push('/');
+  }
+
+  const handleSignIn = () => {
+    // On sign in, go back to the previous resource.
+    history.go('-1');
+  }
+}
+```
+
+In React Router v6, the useHistory() hook is invalid syntax and has been replaced with the useNavigate() hook.
+
+```
+import {useNavigate} from "react-router-dom";
+
+const UserSignIn = () => {
+  let history = useNavigate();
+
+  const handleCancelSignIn = () => {
+    // On cancel, push the '/' route and redirect user to the homepage.
+    history('/');
+  }
+
+  const handleSignIn = () => {
+    // On sign in, go back to the previous resource.
+    history('-1');
+  }
+}
+```
+
+Whereas the useHistory() hook would return the history object and allow users to access the history stack and associated history methods, the useNavigate() hook returns a function that allows programmatic navigation. The stored function accepts a "to" value (a route), or a delta in the history stack. The "to" value can accept an optional second {replace: boolean} arg to update the history stack.
+
 ### Build log:
 
 [08 Feb 2022] - Imported REST API files from Project 9 into /api directory

@@ -5,7 +5,7 @@ import { CourseManagerContext } from "./Context";
 const Authenticated = () => {
   const context = useContext(CourseManagerContext);
   const history = useNavigate();
-  const [timer, setTimer] = useState(10);
+  const [timer, setTimer] = useState(1);
 
   useEffect(() => {
     if (timer > 0) {
@@ -16,7 +16,7 @@ const Authenticated = () => {
       return () => clearInterval(interval);
     } else {
       console.log("timer is up!");
-      history("/", { forced: true });
+      history(-1, { replace: true });
     }
   });
 
