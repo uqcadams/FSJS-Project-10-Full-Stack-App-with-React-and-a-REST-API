@@ -140,6 +140,39 @@ router.get("/courses", async (req, res) => {
   }
 });
 
+// GET all courses including associated user for each course
+router.get("/mycourses/:userId", async (req, res) => {
+  try {
+    // Find all courses and their user associations and store them in variable "courses"
+    const courses = await Course.findAll({
+      where: {
+        userId: req.params.userId,
+      },
+      include: [
+        {
+          ...associationOptions,
+          ...userExclusions,
+        },
+      ],
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
+    });
+    // Return status 200 and course collection
+    console.log(
+      logSuccessFont,
+      "All course records and their associations have been successfully returned."
+    );
+    res.status(200).json(courses);
+  } catch (error) {
+    console.log(
+      logErrorFont,
+      "An error occurred while attempting to return all course records and their associations."
+    );
+    res.status(400).json(error);
+  }
+});
+
 // GET specific course and associated user
 router.get("/courses/:id", async (req, res) => {
   try {

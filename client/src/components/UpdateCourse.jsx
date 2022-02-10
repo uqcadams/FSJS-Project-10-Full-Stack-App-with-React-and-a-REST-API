@@ -6,13 +6,14 @@ import { CourseManagerContext } from "./Context/index";
 const UpdateCourse = () => {
   const { id } = useParams();
   const context = useContext(CourseManagerContext);
+  const authUser = context.authenticatedUser;
   let history = useNavigate();
 
   // State Management
   const [isLoading, setIsLoading] = useState(false);
   const [courseData, setCourseData] = useState([]);
-  const [courseTitle, setCourseTitle] = useState("");
-  const [courseDescription, setCourseDescription] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [estimatedTime, setEstimatedTime] = useState("");
   const [materialsNeeded, setMaterialsNeeded] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -23,11 +24,11 @@ const UpdateCourse = () => {
     const value = event.target.value;
 
     switch (event.target.name) {
-      case "courseTitle":
-        setCourseTitle(value);
+      case "title":
+        setTitle(value);
         break;
-      case "courseDescription":
-        setCourseDescription(value);
+      case "description":
+        setDescription(value);
         break;
       case "estimatedTime":
         setEstimatedTime(value);
@@ -43,13 +44,16 @@ const UpdateCourse = () => {
   const submit = () => {
     const course = {
       id,
-      courseTitle,
-      courseDescription,
+      title,
+      description,
       estimatedTime,
       materialsNeeded,
+      userId: authUser.id,
     };
+    const emailAddress = context.authenticatedUser.emailAddress;
+    const password = context.authenticatedUser.password;
     context.data
-      .updateCourse(course)
+      .updateCourse(course, emailAddress, password)
       .then((errors) => {
         if (errors.length) {
           console.log("Errors occured when updating a course");
@@ -64,12 +68,12 @@ const UpdateCourse = () => {
         history("/error", { replace: true });
       });
   };
+
   const cancel = () => {
-    history("/", { replace: true });
+    history(-1);
   };
 
   // Hooks
-
   console.log(`Loading state: ${isLoading}`);
   useEffect(() => {
     console.log("Attempting to fetch data...");
@@ -77,8 +81,8 @@ const UpdateCourse = () => {
       .getCourseById(id)
       .then((course) => {
         console.log(`Course data was received...`);
-        setCourseTitle(course.title);
-        setCourseDescription(course.description);
+        setTitle(course.title);
+        setDescription(course.description);
         setEstimatedTime(course.estimatedTime);
         setMaterialsNeeded(course.materialsNeeded);
         setFirstName(course.associatedUser.firstName);
@@ -109,10 +113,10 @@ const UpdateCourse = () => {
         elements={() => (
           <React.Fragment>
             <input
-              id="courseTitle"
-              name="courseTitle"
+              id="title"
+              name="title"
               type="text"
-              value={courseTitle}
+              value={title}
               onChange={change}
               placeholder="Course Title"
             />
@@ -120,10 +124,10 @@ const UpdateCourse = () => {
               By {firstName} {lastName}
             </p>
             <textarea
-              id="courseDescription"
-              name="courseDescription"
+              id="description"
+              name="description"
               type="text"
-              value={courseDescription}
+              value={description}
               onChange={change}
               placeholder="Course Description"
             />
