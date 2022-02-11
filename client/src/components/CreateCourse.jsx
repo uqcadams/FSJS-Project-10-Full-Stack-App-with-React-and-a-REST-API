@@ -120,7 +120,12 @@ const CreateCourse = () => {
                 </label>
                 <label>
                   Materials Needed
-                  <input
+                  <p className="edit--notification">
+                    Tip: add bullet points by prefixing each material with an
+                    asterix ( " <span>*</span> " ).
+                  </p>
+                  <textarea
+                    className="materials--needed"
                     id="materialsNeeded"
                     name="materialsNeeded"
                     type="text"

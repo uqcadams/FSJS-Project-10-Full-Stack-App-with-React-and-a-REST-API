@@ -1,8 +1,11 @@
 // Import REST API config pathway
-import config from "../config/config";
+import config from "./config/config";
 
 /** Helper class representing utility methods to create, sign up, and authenticate a user. Provides utility methods to allow the React client to communicate with the Express server */
 export default class Data {
+  /*********************************/
+  /* REST API COMMUNICATION METHOD */
+  /*********************************/
   /**
    * Defines custom GET and POST requests to the REST API
    * @param {string} path - an API endpoint (eg "/users", "/users/:id")
@@ -48,51 +51,9 @@ export default class Data {
     return fetch(url, options);
   }
 
-  async getCourses() {
-    const response = await this.api(`/courses`, "GET");
-    if (response.status === 200) {
-      console.log(`Data.jsx - Status 200`);
-      return response.json().then((data) => data);
-    } else if (response.status === 401) {
-      console.log(`Data.jsx - Status 401`);
-      return null;
-    } else {
-      console.log(`Data.jsx - New error`);
-      throw new Error();
-    }
-  }
-
-  async getMyCourses(userId) {
-    console.log(userId);
-    const response = await this.api(`/mycourses/${userId}`, "GET");
-    if (response.status === 200) {
-      console.log(`Data.jsx - Status 200`);
-      return response.json().then((data) => data);
-    } else if (response.status === 401) {
-      console.log(`Data.jsx - Status 401`);
-      return null;
-    } else {
-      console.log(`Data.jsx - New error`);
-      throw new Error();
-    }
-  }
-
-  /**
-   * Sends a GET request to the REST API to fetch specific course details. The params are passed to the api function, which then communicates with the REST API to finalise the request and return the requested data.
-   * @param {number} id - a course ID extracted via params to be associated with a course
-   * @returns {object} representing the course details for the requested course (null, if it doesn't exist)
-   */
-  async getCourseById(id) {
-    const response = await this.api(`/courses/${id}`, "GET", null);
-    if (response.status === 200) {
-      return response.json().then((data) => data);
-    } else if (response.status === 401) {
-      return null;
-    } else {
-      throw new Error();
-    }
-  }
-
+  /***********************************/
+  /* GET USER RECORDS BY CREDENTIALS */
+  /***********************************/
   /**
    * Utilises the custom api method to perform an async operation to GET an authenticated user
    * @param {*} emailAddress -
@@ -114,6 +75,9 @@ export default class Data {
     }
   }
 
+  /*******************/
+  /* CREATE NEW USER */
+  /*******************/
   /**
    * Utilises the custom api method to perform an async operation to POST a new user
    * @param {object} user - new user data to be sent to the /users endpoint
@@ -133,6 +97,63 @@ export default class Data {
     }
   }
 
+  /**************************/
+  /* GET ALL COURSE RECORDS */
+  /**************************/
+  async getCourses() {
+    const response = await this.api(`/courses`, "GET");
+    if (response.status === 200) {
+      console.log(`Data.jsx - Status 200`);
+      return response.json().then((data) => data);
+    } else if (response.status === 401) {
+      console.log(`Data.jsx - Status 401`);
+      return null;
+    } else {
+      console.log(`Data.jsx - New error`);
+      throw new Error();
+    }
+  }
+
+  /*************************************************/
+  /* GET ALL COURSE RECORDS FOR AUTHENTICATED USER */
+  /*************************************************/
+  async getMyCourses(userId) {
+    console.log(userId);
+    const response = await this.api(`/mycourses/${userId}`, "GET");
+    if (response.status === 200) {
+      console.log(`Data.jsx - Status 200`);
+      return response.json().then((data) => data);
+    } else if (response.status === 401) {
+      console.log(`Data.jsx - Status 401`);
+      return null;
+    } else {
+      console.log(`Data.jsx - New error`);
+      throw new Error();
+    }
+  }
+
+  /****************************/
+  /* GET COURSE RECORDS BY ID */
+  /****************************/
+  /**
+   * Sends a GET request to the REST API to fetch specific course details. The params are passed to the api function, which then communicates with the REST API to finalise the request and return the requested data.
+   * @param {number} id - a course ID extracted via params to be associated with a course
+   * @returns {object} representing the course details for the requested course (null, if it doesn't exist)
+   */
+  async getCourseById(id) {
+    const response = await this.api(`/courses/${id}`, "GET", null);
+    if (response.status === 200) {
+      return response.json().then((data) => data);
+    } else if (response.status === 401) {
+      return null;
+    } else {
+      throw new Error();
+    }
+  }
+
+  /****************************/
+  /* CREATE NEW COURSE RECORD */
+  /****************************/
   /**
    * Utilises the custom api method to perform an async operation to POST a new user
    * @param {object} user - new user data to be sent to the /users endpoint
@@ -162,6 +183,9 @@ export default class Data {
     }
   }
 
+  /*************************************/
+  /* UPDATE COURSE RECORD BY COURSE ID */
+  /*************************************/
   /**
    * Utilises the custom api method to perform an async operation to POST a new user
    * @param {object} user - new user data to be sent to the /users endpoint
@@ -188,6 +212,9 @@ export default class Data {
     }
   }
 
+  /*************************************/
+  /* DELETE COURSE RECORD BY COURSE ID */
+  /*************************************/
   async deleteCourse(courseId, emailAddress, password) {
     const response = await this.api(
       `/courses/${courseId}`,

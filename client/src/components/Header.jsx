@@ -1,37 +1,42 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { CourseManagerContext } from "./Context/index";
+import Logo from "./Logo";
 
 const Header = () => {
   const { authenticatedUser } = useContext(CourseManagerContext);
+  const history = useNavigate();
 
   return (
     <header>
       <div className="wrap header--flex">
-        <h1 className="header--logo">
-          <Link to="/">Project 10</Link>
-        </h1>
+        <div className="header--banner" onClick={() => history("/")}>
+          <Logo className="header--logo" />
+          <span className="header--logo--text">Course Manager 9000</span>
+        </div>
         <nav>
           {authenticatedUser ? (
             <ul className="header--signedin">
-              <li>Welcome, {authenticatedUser.firstName}!</li>
-              <li>
-                <Link to="/mycourses">My Courses</Link>
+              <li className="welcome--tag">
+                Welcome, {authenticatedUser.firstName}!
               </li>
               <li>
-                <Link to="/">All Courses</Link>
+                <NavLink to="/mycourses">My Courses</NavLink>
               </li>
               <li>
-                <Link to="/signout">Sign Out</Link>
+                <NavLink to="/">All Courses</NavLink>
+              </li>
+              <li>
+                <NavLink to="/signout">Sign Out</NavLink>
               </li>
             </ul>
           ) : (
             <ul className="header--signedout">
               <li>
-                <Link to="/signup">Sign Up</Link>
+                <NavLink to="/signup">Sign Up</NavLink>
               </li>
               <li>
-                <Link to="/signin">Sign In</Link>
+                <NavLink to="/signin">Sign In</NavLink>
               </li>
             </ul>
           )}

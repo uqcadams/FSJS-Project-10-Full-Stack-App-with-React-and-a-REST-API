@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { CourseManagerContext } from "./Context/index";
 import ReactMarkdown from "react-markdown";
 import Loading from "./Loading";
@@ -7,8 +7,13 @@ import Loading from "./Loading";
 const CourseDetail = () => {
   const { id } = useParams();
   let history = useNavigate();
+  let nextIndex;
+  let nextIndexStr;
+  let nextCourse;
   const context = useContext(CourseManagerContext);
   const authUser = context.authenticatedUser;
+  const courseView = context.currentCourseView;
+
   const [courseData, setCourseData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -29,9 +34,66 @@ const CourseDetail = () => {
       })
       .finally(() => {
         // console.log("Loading is being set to false");
+        // returnNextIndex();
+        handleNextCourse();
+        // console.log(nextIndex);
         setIsLoading(false);
       });
   }, [context.data, history, id]);
+
+  const returnNextIndex = () => {
+    let currentCourseID = parseInt(id);
+    let currentIndex;
+    switch (context.currentCourseView) {
+      case "myCourses":
+        currentIndex = context.myIndices.indexOf(currentCourseID);
+        // console.log(`Current index in the myCourses Array: ${currentIndex}`);
+        // console.log("Type of currentIndex: ", typeof currentIndex);
+        nextIndex = context.myIndices[currentIndex + 1];
+        // console.log("Type of nextIndex: ", typeof nextIndex);
+        nextIndexStr = nextIndex.toString();
+        // console.log("Type of nextIndexStr: ", typeof nextIndexStr);
+        // console.log(`Next up:  ${nextIndex}`);
+        // console.log(`Lets go to this url then: /courses/${nextIndex}`);
+        break;
+      default:
+        currentIndex = context.allIndices.indexOf(currentCourseID);
+        // console.log(`Current index in the allCourses Array: ${currentIndex}`);
+        nextIndex = context.allIndices[currentIndex + 1];
+        nextIndexStr = nextIndex.toString();
+      // console.log(typeof nextIndexStr);
+      // console.log(`Next up:  ${nextIndex}`);
+    }
+  };
+
+  const handleNextCourse = () => {
+    let currentCourseID = parseInt(id);
+    let currentIndex;
+    switch (context.currentCourseView) {
+      case "myCourses":
+        currentIndex = context.myIndices.indexOf(currentCourseID);
+        // console.log(`Current index in the myCourses Array: ${currentIndex}`);
+        // console.log("Type of currentIndex: ", typeof currentIndex);
+        nextIndex = context.myIndices[currentIndex + 1];
+        // console.log("Type of nextIndex: ", typeof nextIndex);
+        nextIndexStr = nextIndex.toString();
+        // console.log("Type of nextIndexStr: ", typeof nextIndexStr);
+        // console.log(`Next up:  ${nextIndex}`);
+        // console.log(`Lets go to this url then: /courses/${nextIndex}`);
+        break;
+      default:
+        currentIndex = context.allIndices.indexOf(currentCourseID);
+        // console.log(`Current index in the allCourses Array: ${currentIndex}`);
+        nextIndex = context.allIndices[currentIndex + 1];
+        nextIndexStr = nextIndex.toString();
+      // console.log(typeof nextIndexStr);
+      // console.log(`Next up:  ${nextIndex}`);
+    }
+    console.log(nextIndex);
+    nextCourse = `/courses/${nextIndex}`;
+    // console.log();
+    // history(`"${nextCourse}"`, { replace: true });
+  };
 
   const handleDeleteConfirmation = () => {
     switch (deleteConfirmation) {
@@ -51,15 +113,15 @@ const CourseDetail = () => {
       .deleteCourse(id, emailAddress, password)
       .then((errors) => {
         if (errors.length) {
-          // console.log("Errors occured when deleting a course");
+          console.log("Errors occured when deleting a course");
           setErrors(errors);
         } else {
-          // console.log("Course updated successfully");
+          console.log("Course updated successfully");
           history(`/`, { replace: true });
         }
       })
       .catch((err) => {
-        // console.log(err);
+        console.log(err);
         history("/error", { replace: true });
       });
   };
@@ -88,15 +150,23 @@ const CourseDetail = () => {
           ) : (
             <></>
           )}
-          {context.currentCourseView === "myCourses" ? (
-            <Link className="button button-secondary" to={"/mycourses"}>
-              Return to My Courses
-            </Link>
-          ) : (
-            <Link className="button button-secondary" to="/">
-              Return to Course List
-            </Link>
-          )}
+
+          <Link
+            className="button button-secondary"
+            to={{}}
+            onClick={() => history(-1)}
+          >
+            Return to List
+          </Link>
+          <Link
+            className="button button-secondary"
+            to={nextCourse}
+            // onClick={() => {
+            //   handleNextCourse();
+            // }}
+          >
+            Next Course
+          </Link>
         </div>
       </div>
       {deleteConfirmation ? (

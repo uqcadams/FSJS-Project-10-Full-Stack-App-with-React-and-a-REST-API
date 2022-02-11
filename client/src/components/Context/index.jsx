@@ -1,13 +1,33 @@
 import React, { useState } from "react";
+import Cookies from "js-cookie";
 
 import Data from "../../utils/Data";
 
 export const CourseManagerContext = React.createContext();
 
 export const Provider = (props) => {
-  const data = new Data();
-  const [authenticatedUser, setAuthenticatedUser] = useState(null);
-  const [auth, setAuth] = useState(false);
+  const data = new Data(); // Intantiates a new instance of the data-fetching helper class.
+  const cookie = Cookies.get("authenticatedUser");
+  console.log(cookie);
+  const [authenticatedUser, setAuthenticatedUser] = useState(
+    cookie ? JSON.parse(cookie) : null
+  );
+  const [auth, setAuth] = useState(authenticatedUser ? true : false);
+  const [allIndices, setAllIndices] = useState([]);
+  const [myIndices, setMyIndices] = useState([]);
+  const [currentCourseView, setCurrentCourseView] = useState("allCourses");
+
+  const handleCourseView = (view) => {
+    setCurrentCourseView(view);
+  };
+
+  const handleAllIndices = (indices) => {
+    setAllIndices(indices);
+  };
+
+  const handleMyIndices = (indices) => {
+    setMyIndices(indices);
+  };
 
   /**
    * User sign in and authentication function. Updates context with the current authenticated user credentials.
@@ -23,6 +43,7 @@ export const Provider = (props) => {
       user.password = password;
       setAuthenticatedUser(user);
       setAuth(true);
+      Cookies.set("authenticatedUser", JSON.stringify(user), { expires: 1 });
     } else {
       console.log("user was not authenticated");
     }
@@ -36,6 +57,7 @@ export const Provider = (props) => {
   const handleSignOut = () => {
     setAuthenticatedUser(null);
     setAuth(false);
+    Cookies.remove("authenticatedUser");
   };
 
   /**
@@ -45,7 +67,13 @@ export const Provider = (props) => {
     authenticatedUser,
     auth,
     data,
+    currentCourseView,
+    allIndices,
+    myIndices,
     actions: {
+      getCourseView: handleCourseView,
+      getAllIndices: handleAllIndices,
+      getMyIndices: handleMyIndices,
       signOut: handleSignOut,
       signIn: handleSignIn,
     },

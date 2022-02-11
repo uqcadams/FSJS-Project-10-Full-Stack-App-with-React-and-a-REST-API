@@ -13,6 +13,7 @@ import UpdateCourse from "./components/UpdateCourse";
 import Authenticated from "./components/Authenticated";
 import PrivateRoute from "./components/PrivateRoute";
 import MyCourses from "./components/MyCourses";
+import NotFound from "./components/NotFound";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
       <Routes>
         {/* NOTE: */}
         <Route path="/" element={<CourseList />} />
+        <Route path="/courses" element={<CourseList />} />
 
         {/* NOTE: */}
         <Route
@@ -55,6 +57,7 @@ const App = () => {
 
         {/* NOTE: */}
         <Route path="/courses/:id" element={<CourseDetail />} />
+        {/* <Route path="/courses/*" element={<NotFound />} /> */}
 
         {/* NOTE: */}
         <Route path="/signin" element={<SignIn />} />
@@ -73,10 +76,17 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
 
         {/* STATUS: FUNCTIONAL - NOTE: Renders signout component. Mounts a function call to wipe authentication settings and redirect to home page. */}
-        <Route path="/signout" element={<SignOut />} />
+        <Route
+          path="/signout"
+          element={
+            <PrivateRoute>
+              <SignOut />
+            </PrivateRoute>
+          }
+        />
 
         {/* STATUS: FUNCTIONAL - NOTE: Error handling route - if url is not an exact match, render error component */}
-        <Route path="*" element={<Error />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

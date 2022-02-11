@@ -35,30 +35,6 @@ const SignIn = () => {
     }
   };
 
-  /**
-   * Dynamically fetches and stores user credentials in an object to use in the createUser function call.
-   */
-  // const submit = () => {
-  //   console.log(
-  //     `Submit function in SignIn page is sending credentials for authentication. Email: (${emailAddress}), Password: (${password})`
-  //   );
-  //   context.actions
-  //     .signIn(emailAddress, password)
-  //     .then((errors) => {
-  //       if (errors.length) {
-  //         console.log("Submit function in SignIn page has error length .");
-  //         setErrors(errors);
-  //       } else {
-  //         console.log("Submit function in SignIn page has no errors.");
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(`An error occurred during login`, err);
-  //       // history("/error", { replace: true });
-  //     });
-  // };
-
-  // NEW FIXES
   const submit = () => {
     context.actions
       .signIn(emailAddress, password)
@@ -78,6 +54,7 @@ const SignIn = () => {
   const cancel = () => {
     history("/", { replace: true });
   };
+
   return (
     <div className="form--centered">
       <h2>Sign In</h2>

@@ -246,6 +246,22 @@ textarea:focus {
 
 /* STYLE ADDITIONS */
 
+.welcome--msg {
+  background: #d9f0d9;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.welcome--msg span {
+  font-weight: 600;
+  margin-right: 0.65em;
+}
+
+.welcome--tag {
+  margin-right: 1.5em;
+}
+
 .cancel-delete {
   background-color: #800;
 }
@@ -266,15 +282,115 @@ textarea:focus {
 }
 
 .auth--centered p {
-  font-size: 0.7em;
+  font-size: 0.85em;
 }
 
 .auth--centered button {
   margin-top: 1.5em;
   text-decoration: none;
-  font-size: 0.6em;
+  font-size: 0.7em;
 }
 
 .auth--centered a {
   color: white;
+}
+
+.active {
+  color: white;
+  font-weight: 600;
+  text-decoration: und;
+}
+
+input,
+textarea {
+  margin-top: 0.6em;
+}
+
+/* p + textarea {
+  margin-top: 0.1em;
+} */
+
+.header--signedin li:last-of-type {
+  margin-left: 2em;
+}
+
+.materials--needed {
+  margin-bottom: 0.25em;
+}
+
+.edit--notification {
+  background: rgba(155, 0, 0, 0.1);
+  padding: 1em;
+  border-radius: 0.5rem;
+  font-size: 0.65em;
+  margin-bottom: 0;
+  margin-top: 0.5em;
+}
+
+.edit--notification span {
+  font-weight: 600;
+}
+
+.button--active {
+  background-color: #939;
+}
+
+@keyframes logo-pulse {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.1;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
+@keyframes logo-shake {
+  0% {
+    transform: translateX(0%);
+  }
+  15% {
+    transform: translateX(-10%) rotate(-5deg);
+  }
+  30% {
+    transform: translateX(10%) rotate(3deg);
+  }
+  45% {
+    transform: translateX(-5%) rotate(-3deg);
+  }
+  60% {
+    transform: translateX(5%) rotate(2deg);
+  }
+  75% {
+    transform: rotate(-1deg);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.header--banner {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  height: 1.5em;
+  cursor: pointer;
+}
+
+.header--banner svg {
+  height: 100%;
+  transform-origin: 50% 50%;
+  /* animation: logo-pulse 3s infinite; */
+  margin-bottom: 0.45em;
+  fill: white;
+}
+
+.header--banner:hover svg {
+  animation: logo-shake 1s infinite ease-in;
+}
+
+.header--logo--text {
+  margin-left: 1em;
 }

@@ -1,22 +1,25 @@
 import React, { useState, useEffect, useContext } from "react";
-
 import { Link, useNavigate } from "react-router-dom";
-
 import { CourseManagerContext } from "./Context/index";
 
 const MyCourses = (props) => {
   const context = useContext(CourseManagerContext);
   const history = useNavigate();
   const authUser = context.authenticatedUser;
-  console.log(authUser);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  let myIndices;
+  let courses;
+
   useEffect(() => {
+    context.actions.getCourseView("myCourses");
     context.data
       .getMyCourses(authUser.id)
       .then((response) => {
         console.log("Data returned: ", response);
         setData(response);
+        myIndices = response.map((course) => course.id);
+        context.actions.getMyIndices(myIndices);
         console.log("Response data set to state");
       })
       .catch((err) => {
@@ -28,8 +31,6 @@ const MyCourses = (props) => {
         setIsLoading(false);
       });
   }, []);
-
-  let courses;
 
   if (data.length) {
     console.log("There are courses");
