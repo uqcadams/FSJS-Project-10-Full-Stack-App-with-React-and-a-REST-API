@@ -144,11 +144,19 @@ Whereas the useHistory() hook would return the history object and allow users to
 
 ### Build log:
 
-[08 Feb 2022] - Imported REST API files from Project 9 into /api directory
-[08 Feb 2022] - Initialised basic file structure with create-react-app in /client directory
-[08 Feb 2022] - Removed redundant files for project in /client directory
-[08 Feb 2022] - Added CORS support to REST API with `cors npm package`, implemented in api/app.js
-[08 Feb 2022] - Initialised client/src/config.js file to create connection config with REST API
+- [08 Feb 2022] - Imported REST API files from Project 9 into /api directory
+- [08 Feb 2022] - Initialised basic file structure with create-react-app in /client directory
+- [08 Feb 2022] - Removed redundant files for project in /client directory
+- [08 Feb 2022] - Added CORS support to REST API with `cors npm package`, implemented in api/app.js
+- [08 Feb 2022] - Initialised client/src/config.js file to create connection config with REST API
+- [09 Feb 2022] - Implemented basic data fetching for core routes
+- [09 Feb 2022] - Implemented private routes and Higher-Order Components
+- [10 Feb 2022] - ALTERED FOLDER / FILE STRUCTURE (_NOTE_: Update build log and documentation )
+- [10 Feb 2022] - Re-seeded database
+- [10 Feb 2022] - Completed core routing functionalities
+- [11 Feb 2022] - Fixed some routing and navigation issues
+- [12 Feb 2022] - Added more meaningful code comments
+- [12 Feb 2022] - Starting css styling modifications
 
 ### Operating logic:
 
