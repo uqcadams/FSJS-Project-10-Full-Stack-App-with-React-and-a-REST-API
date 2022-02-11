@@ -1,6 +1,11 @@
 import React from "react";
 
-export default (props) => {
+/**
+ * Renders a dynamic <Form> component with custom event handling defined within an associated parent component.
+ * @param {*} props - custom form props provided in parent component.
+ * @returns
+ */
+const Form = (props) => {
   const { cancel, errors, submit, submitButtonText, elements } = props;
 
   function handleSubmit(event) {
@@ -31,6 +36,11 @@ export default (props) => {
   );
 };
 
+/**
+ * Functionality to display errors within the Form component, above the form body.
+ * @param {object} errors - an object containing validation errors created during form submission.
+ * @returns {function} a stateless functional react component listing validation errors
+ */
 function ErrorsDisplay({ errors }) {
   let errorsDisplay = null;
 
@@ -38,7 +48,6 @@ function ErrorsDisplay({ errors }) {
     errorsDisplay = (
       <div className="validation--errors">
         <h3>Validation errors</h3>
-
         <ul>
           {errors.map((error, index) => (
             <li key={index}>{error}</li>
@@ -50,3 +59,5 @@ function ErrorsDisplay({ errors }) {
 
   return errorsDisplay;
 }
+
+export default Form;

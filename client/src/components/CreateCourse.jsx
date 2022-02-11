@@ -4,19 +4,26 @@ import { useNavigate } from "react-router-dom";
 import { CourseManagerContext } from "./Context/index";
 
 const CreateCourse = () => {
+  let history = useNavigate();
   const context = useContext(CourseManagerContext);
   const authUser = context.authenticatedUser;
-  let history = useNavigate();
 
+  // State management
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [estimatedTime, setEstimatedTime] = useState("");
   const [materialsNeeded, setMaterialsNeeded] = useState("");
   const [errors, setErrors] = useState([]);
 
+  /**
+   * DESCRIPTION: LIVE FORM INPUT FIELD UPDATE AND STORAGE.
+   * Takes user input from the form fields in the form of an event object. Allows for the dynamic extraction and manipulation of event.target.value input fields.
+   * @param {object} event - the data stored in the input field
+   * The event.target.name value (the name of the input field) is used to determine and update the corresponding state fields via the useState() hook.
+   * @returns updated state for the target field.
+   */
   const change = (event) => {
     const value = event.target.value;
-
     switch (event.target.name) {
       case "title":
         setTitle(value);
@@ -35,6 +42,10 @@ const CreateCourse = () => {
     }
   };
 
+  /**
+   * Form submission functionality for creating new course content. Takes data from form fields, and creates a new course object with the current authenticated user's ID attached.
+   * The new course object is passed to the createCourse(...) api method with user credentials to create a new course instance in the database.
+   */
   const submit = () => {
     const course = {
       title,
@@ -43,27 +54,38 @@ const CreateCourse = () => {
       materialsNeeded,
       userId: authUser.id,
     };
-    const emailAddress = context.authenticatedUser.emailAddress;
-    const password = context.authenticatedUser.password;
 
     context.data
-      .createCourse(course, emailAddress, password)
+      .createCourse(course, authUser.emailAddress, authUser.password)
       .then((errors) => {
         if (errors.length) {
+          console.error(
+            `[CreateCourse.jsx]: Validation errors occurred while attempting to create new course content with createCourse().`
+          );
           setErrors(errors);
         } else {
+          console.log(
+            `[CreateCourse.jsx]: A new course "${title}" was successfully created and added to the dataset.`
+          );
           history(-1);
         }
       })
       .catch((err) => {
-        console.log(err);
-        history("/error", { replace: true });
+        console.error(
+          `[CreateCourse.jsx]: An error occurred while attempting to create new course content with createCourse(). Error:  `,
+          err
+        );
+        history("/error");
       });
   };
 
+  /**
+   * Cancels the attempt to create a new course and returns the user to the homepage.
+   */
   const cancel = () => {
-    history("/", { replace: true });
+    history("/");
   };
+
   return (
     <div className="wrap">
       <h2>Create Course</h2>

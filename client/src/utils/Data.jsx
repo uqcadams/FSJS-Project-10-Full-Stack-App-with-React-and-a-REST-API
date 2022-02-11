@@ -68,7 +68,10 @@ export default class Data {
     if (response.status === 200) {
       return response.json().then((data) => data);
     } else if (response.status === 401) {
-      console.log(`Response status from Data.jsx: `, response.status);
+      console.log(
+        `[Data.jsx]: An error occurred while attempting to fetch user records. Response status: `,
+        response.status
+      );
       return null;
     } else {
       throw new Error();
@@ -87,9 +90,12 @@ export default class Data {
     if (response.status === 201) {
       return [];
     } else if (response.status === 400) {
-      console.log("There were errors");
+      console.log(
+        `[Data.jsx]: An error occurred while attempting to create a new user with createUser(user). Response status: `,
+        response.status
+      );
       return response.json().then((data) => {
-        console.log(data.errors);
+        console.log(`[Data.jsx]: New Error thrown in createUser(user).`);
         return data.errors;
       });
     } else {
@@ -103,13 +109,19 @@ export default class Data {
   async getCourses() {
     const response = await this.api(`/courses`, "GET");
     if (response.status === 200) {
-      console.log(`Data.jsx - Status 200`);
+      console.log(
+        `[Data.jsx]: Course records were successfully fetched with getCourses(). Response status: `,
+        response.status
+      );
       return response.json().then((data) => data);
     } else if (response.status === 401) {
-      console.log(`Data.jsx - Status 401`);
-      return null;
+      console.log(
+        `[Data.jsx]: An error occurred while attempting to fetch course records with getCourses(). Response status: `,
+        response.status
+      );
+      return response.status;
     } else {
-      console.log(`Data.jsx - New error`);
+      console.log(`[Data.jsx]: New Error thrown in getCourses().`);
       throw new Error();
     }
   }
@@ -118,16 +130,21 @@ export default class Data {
   /* GET ALL COURSE RECORDS FOR AUTHENTICATED USER */
   /*************************************************/
   async getMyCourses(userId) {
-    console.log(userId);
     const response = await this.api(`/mycourses/${userId}`, "GET");
     if (response.status === 200) {
-      console.log(`Data.jsx - Status 200`);
+      console.log(
+        `[Data.jsx]: Course records were successfully fetched for the authenticated user with getMyCourses(userId). Response status: `,
+        response.status
+      );
       return response.json().then((data) => data);
     } else if (response.status === 401) {
-      console.log(`Data.jsx - Status 401`);
-      return null;
+      console.log(
+        `[Data.jsx]: An error occurred while attempting to fetch course records for the authenticated user with getMyCourses(userId). Response status: `,
+        response.status
+      );
+      return response.status;
     } else {
-      console.log(`Data.jsx - New error`);
+      console.log(`[Data.jsx]: New Error thrown in getMyCourses(userId).`);
       throw new Error();
     }
   }
@@ -143,10 +160,22 @@ export default class Data {
   async getCourseById(id) {
     const response = await this.api(`/courses/${id}`, "GET", null);
     if (response.status === 200) {
+      console.log(
+        `[Data.jsx]: Course records were successfully fetched for a specific course with getCourseById(id). Response status: `,
+        response.status
+      );
       return response.json().then((data) => data);
-    } else if (response.status === 401) {
-      return null;
+    } else if (response.status === 404) {
+      console.log(
+        `[Data.jsx]: An error occurred while attempting to fetch course records for a specific course with getCourseById(id). Response status: `,
+        response.status
+      );
+      return response;
     } else {
+      console.log(
+        `[Data.jsx]: New Error thrown in getCourseById(id). Response status: `,
+        response.status
+      );
       throw new Error();
     }
   }
@@ -159,26 +188,27 @@ export default class Data {
    * @param {object} user - new user data to be sent to the /users endpoint
    */
   async createCourse(course, emailAddress, password) {
-    console.log(
-      `You are passing these credentials in Data.jsx: `,
-      emailAddress
-    );
-    console.log(`You are passing these credentials in Data.jsx: `, password);
     const response = await this.api("/courses", "POST", course, true, {
       emailAddress,
       password,
     });
-    console.log(response);
     if (response.status === 201) {
-      console.log("A course was created");
+      console.log(
+        `[Data.jsx]: Course records were successfully added to the dataset and associated with user "${emailAddress}" with createCourse(...). Response status: `,
+        response.status
+      );
       return [];
     } else if (response.status === 400) {
-      console.log("There were errors");
+      console.log(
+        `[Data.jsx]: An error occurred while attempting to create a new course for user "${emailAddress}" with createCourse(...). Response status: `,
+        response.status
+      );
       return response.json().then((data) => {
         console.log(data.errors);
         return data.errors;
       });
     } else {
+      console.log(`[Data.jsx]: New Error thrown in createCourse(...).`);
       throw new Error();
     }
   }
@@ -199,15 +229,22 @@ export default class Data {
       { emailAddress, password }
     );
     if (response.status === 204) {
-      console.log("A course was updated");
+      console.log(
+        `[Data.jsx]: Course records for id ${course.id} were successfully updated with updateCourse(...). Response status: `,
+        response.status
+      );
       return [];
     } else if (response.status === 400) {
-      console.log("There were errors");
+      console.log(
+        `[Data.jsx]: An error occurred while attempting to update course records for id ${course.id} with updateCourse(...). Response status: `,
+        response.status
+      );
       return response.json().then((data) => {
         console.log(data.errors);
         return data.errors;
       });
     } else {
+      console.log(`[Data.jsx]: New Error thrown in updateCourse(...).`);
       throw new Error();
     }
   }
@@ -227,15 +264,22 @@ export default class Data {
       }
     );
     if (response.status === 204) {
-      console.log("A course was updated");
+      console.log(
+        `[Data.jsx]: Course records for id ${courseId} were successfully deleted with deleteCourse(...). Response status: `,
+        response.status
+      );
       return [];
-    } else if (response.status === 400) {
-      console.log("There were errors");
+    } else if (response.status === 403) {
+      console.log(
+        `[Data.jsx]: Access was denied when attempting to delete course records for id ${courseId} with deleteCourse(...). Response status: `,
+        response.status
+      );
       return response.json().then((data) => {
         console.log(data.errors);
         return data.errors;
       });
     } else {
+      console.log(`[Data.jsx]: New Error thrown in deleteCourse(...).`);
       throw new Error();
     }
   }

@@ -5,10 +5,16 @@ import Data from "../../utils/Data";
 
 export const CourseManagerContext = React.createContext();
 
+/**
+ * Higher-Order Component to provide context to all child consumers
+ * @param {object} props - props to be handed down to child components
+ * @returns {function} - A Higher-Order functional component
+ */
 export const Provider = (props) => {
   const data = new Data(); // Intantiates a new instance of the data-fetching helper class.
   const cookie = Cookies.get("authenticatedUser");
-  console.log(cookie);
+
+  // STATE HOOKS
   const [authenticatedUser, setAuthenticatedUser] = useState(
     cookie ? JSON.parse(cookie) : null
   );
@@ -17,14 +23,29 @@ export const Provider = (props) => {
   const [myIndices, setMyIndices] = useState([]);
   const [currentCourseView, setCurrentCourseView] = useState("allCourses");
 
+  /**
+   * Helper function to define current course view - "allCourses" or "myCourses". Updates context for use across application. Used for interpreting page navigation indices.
+   * @param {string} view - defining either the "allCourses" or "myCourses" state.
+   * @returns updated currentCourseView state.
+   */
   const handleCourseView = (view) => {
     setCurrentCourseView(view);
   };
 
+  /**
+   * Stores the indices of all database records in global state, accessible via context. Used for interpolating URL navigation params in allCourses view. Enables dynamic updating the use of "next record" button.
+   * @param {array} indices - an array of index values for all course records.
+   * @returns updated allIndices state.
+   */
   const handleAllIndices = (indices) => {
     setAllIndices(indices);
   };
 
+  /**
+   * Stores the indices of database records associated with the current authenticated user in global state, accessible via context. Used for interpolating URL navigation params in myCourses view. Enables dynamic updating the use of "next record" button.
+   * @param {array} indices - an array of index values for course records associated with the current authenticated user.
+   * @returns updated myIndices state.
+   */
   const handleMyIndices = (indices) => {
     setMyIndices(indices);
   };
@@ -34,18 +55,18 @@ export const Provider = (props) => {
    * If the username and password passed to the function pass the authentication tests, global state is updated to include the authenticated user credentials via the React Context API.
    * @param {string} username - the username (email) to be authenticated
    * @param {string} password - the password to match during authentication
-   * @returns user authentication credentials.
+   * @returns updated authenticatedUser details and auth status in global state, and updates browser cookies to hold user credentials.
    */
   const handleSignIn = async (username, password) => {
     const user = await data.getUser(username, password);
     if (user !== null) {
-      console.log("User was authenticated");
+      console.log(`User "${username}" was successfully authenticated.`);
       user.password = password;
       setAuthenticatedUser(user);
       setAuth(true);
       Cookies.set("authenticatedUser", JSON.stringify(user), { expires: 1 });
     } else {
-      console.log("user was not authenticated");
+      console.log(`User "${username}" failed authentication.`);
     }
     return user;
   };
@@ -58,6 +79,9 @@ export const Provider = (props) => {
     setAuthenticatedUser(null);
     setAuth(false);
     Cookies.remove("authenticatedUser");
+    console.log(
+      `User has been successfully logged out and cookies removed from browser storage.`
+    );
   };
 
   /**
@@ -71,7 +95,7 @@ export const Provider = (props) => {
     allIndices,
     myIndices,
     actions: {
-      getCourseView: handleCourseView,
+      setCourseView: handleCourseView,
       getAllIndices: handleAllIndices,
       getMyIndices: handleMyIndices,
       signOut: handleSignOut,

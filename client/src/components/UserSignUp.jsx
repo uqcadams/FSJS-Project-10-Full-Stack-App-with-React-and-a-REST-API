@@ -3,19 +3,28 @@ import Form from "./Form";
 import { Link, useNavigate } from "react-router-dom";
 import { CourseManagerContext } from "./Context/index";
 
+/**
+ * "Sign Up" - React stateful functional component.
+ * @returns {function} Stateful functional component
+ */
 const SignUp = () => {
-  const context = useContext(CourseManagerContext);
   let history = useNavigate();
+  const context = useContext(CourseManagerContext);
 
+  // State management
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
+  /**
+   * Form input handler. Matches user input value with named input fields, and dynamically updates local state to be used for form submission.
+   * @param {*} event - user input within individual form fields.
+   * @returns updated local state values.
+   */
   const change = (event) => {
     const value = event.target.value;
-
     switch (event.target.name) {
       case "firstName":
         setFirstName(value);
@@ -34,40 +43,55 @@ const SignUp = () => {
     }
   };
 
+  /**
+   * Signup form submission handler. Stores form input fields in request body to be passed to the REST API.
+   */
   const submit = () => {
     const user = { firstName, lastName, emailAddress, password };
-    console.log(user);
     context.data
       .createUser(user)
       .then((errors) => {
         if (errors.length) {
           setErrors(errors);
         } else {
-          // console.log("Account has been created");
-          // history("/", { replace: true });
           context.actions
             .signIn(emailAddress, password)
             .then((user) => {
               if (user === null) {
-                setErrors(["Sign-in was unsuccesful"]);
+                setErrors([
+                  "[UserSignUp.jsx] reported sign-in as UNSUCCESSFUL",
+                ]);
               } else {
-                console.log("Sign-in was successful");
+                console.log(
+                  `User "${emailAddress}" has successfully logged in.`
+                );
                 history("/authenticated", { replace: true });
               }
             })
             .catch((err) => {
-              console.log(err);
+              console.error(
+                `[UserSignUp.jsx]: An error occurred while attempting to log new user ${emailAddress} into the system.`,
+                err
+              );
             });
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(
+          `[UserSignUp.jsx]: An error occurred while attempting to sign up new user ${emailAddress}.`,
+          err
+        );
         history("/error", { replace: true });
       });
   };
+
+  /**
+   * Cancels the user sign-up attempt and redirects the user to the home (course list) page.
+   */
   const cancel = () => {
     history("/", { replace: true });
   };
+
   return (
     <div className="form--centered">
       <h2>Sign Up</h2>

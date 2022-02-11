@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { CourseManagerContext } from "./Context/index";
+import { CourseManagerContext } from "../client/src/components/Context/index";
 import ReactMarkdown from "react-markdown";
-import Loading from "./Loading";
+import Loading from "../client/src/components/Loading";
 
 const CourseDetail = () => {
   const { id } = useParams();

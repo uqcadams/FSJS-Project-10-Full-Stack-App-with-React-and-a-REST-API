@@ -3,6 +3,12 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { CourseManagerContext } from "./Context/index";
 import Logo from "./Logo";
 
+/**
+ * Header component that conditionally renders appropriate fields based on current authentication status.
+ * When no authenticated user is found, Sign Up and Sign In <NavLink> components are rendered.
+ * When an authenticated user is found, a personalised "My Courses" link is rendered, along with an "All Courses" link and option to sign out.
+ * @returns {function} A stateless functional react component.
+ */
 const Header = () => {
   const { authenticatedUser } = useContext(CourseManagerContext);
   const history = useNavigate();

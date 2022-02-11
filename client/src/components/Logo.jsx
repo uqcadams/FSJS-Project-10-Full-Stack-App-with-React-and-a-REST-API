@@ -1,5 +1,9 @@
 import React from "react";
 
+/**
+ * A reusable logo component storing the SVG markup for the CourseManager9000 logo. Allows for cleaner implementation, styling, and animation.
+ * @returns an SVG "Course Manager" logo.
+ */
 const Logo = () => {
   return (
     <svg

@@ -2,38 +2,49 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CourseManagerContext } from "./Context/index";
 
-const CourseList = (props) => {
-  const context = useContext(CourseManagerContext);
+/**
+ * Renders a full list of all course records in the database.
+ * @returns a stateful function react component.
+ */
+const Courses = () => {
   const history = useNavigate();
+  const context = useContext(CourseManagerContext);
+  const { setCourseView, getAllIndices } = context.actions;
   const authUser = context.authenticatedUser;
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  let allIndices;
-  let courses;
 
+  // State management
+  const [data, setData] = useState([]);
+
+  let courses; // Stores courses to be rendered on the page
+
+  /**
+   * Side effects to implement on All Courses page.
+   * Course data is called from the API, and stored in local state. This is later mapped and rendered on the DOM.
+   * While mounted, the course view is set to "allCourses", to give context to navigation functions.
+   * The corresponding indices of each course ID in the dataset are updated in global state.
+   */
   useEffect(() => {
-    context.actions.getCourseView("allCourses");
     context.data
       .getCourses()
       .then((response) => {
-        console.log("Data returned: ", response);
         setData(response);
-        allIndices = response.map((course) => course.id);
-        context.actions.getAllIndices(allIndices);
-        console.log("Response data set to state");
+        setCourseView("allCourses");
+        let allIndices = response.map((course) => course.id);
+        getAllIndices(allIndices);
       })
       .catch((err) => {
-        console.log("An error has occurred...");
+        console.error(
+          `[Courses.jsx]: An error has occurred while fetching course data with getCourse(). Error details: `,
+          err
+        );
         history("/error", { replace: true });
-      })
-      .finally(() => {
-        console.log("Loading is being set to false");
-        setIsLoading(false);
       });
   }, []);
 
+  /**
+   * If courses exist, map the data array into course elements to render on the page.
+   */
   if (data.length) {
-    console.log("There are courses");
     courses = data.map((course, index) => (
       <Link
         className="course--module course--link"
@@ -48,6 +59,7 @@ const CourseList = (props) => {
 
   return (
     <React.Fragment>
+      {/* Conditionally rendered welcome note. If no user is logged in or authentication credentials are not found, a welcome message invites the user to sign up or sign in. This advises the user that course creation is only possible when a user account is active. The authentication check also conditionally renders a course creation button at the bottom of the screen. */}
       {!authUser ? (
         <div className="welcome--msg wrap">
           <span>Welcome, guest!</span>
@@ -87,4 +99,4 @@ const CourseList = (props) => {
   );
 };
 
-export default CourseList;
+export default Courses;

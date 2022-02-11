@@ -204,7 +204,7 @@ router.get("/courses/:id", async (req, res) => {
         logErrorFont,
         `The requested course record does not exist in the database. Reference ID: ${req.params.id}`
       );
-      res.status(400).json({ message: "No course was found with that id." });
+      res.status(404).json({ message: "No course was found with that id." });
     }
   } catch (error) {
     console.log(

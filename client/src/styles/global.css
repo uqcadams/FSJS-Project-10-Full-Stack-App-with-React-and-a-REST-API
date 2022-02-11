@@ -175,7 +175,7 @@ textarea {
   border: 0;
   margin: 0 0 0.5rem 0;
   display: block;
-  width: 210px;
+  min-width: 210px;
   text-align: center;
   border-radius: 0.5rem;
   font-weight: bold;
@@ -262,15 +262,6 @@ textarea:focus {
   margin-right: 1.5em;
 }
 
-.cancel-delete {
-  background-color: #800;
-}
-
-.confirm-delete {
-  color: rgb(28, 176, 28);
-  box-shadow: 0 0 0 2px rgb(28, 176, 28) inset;
-}
-
 .auth--centered {
   max-width: 510px;
   margin: 4em auto 0;
@@ -306,10 +297,6 @@ textarea {
   margin-top: 0.6em;
 }
 
-/* p + textarea {
-  margin-top: 0.1em;
-} */
-
 .header--signedin li:last-of-type {
   margin-left: 2em;
 }
@@ -331,8 +318,26 @@ textarea {
   font-weight: 600;
 }
 
+input:focus,
+button:focus,
+.button:focus,
+textarea:focus {
+  border: none;
+  border-radius: 0.5rem;
+  outline: 2px solid #28af3a;
+}
+
 .button--active {
-  background-color: #939;
+  background-color: rgb(207, 30, 30);
+}
+
+.cancel-delete {
+  background-color: rgb(207, 30, 30);
+}
+
+.confirm-delete {
+  color: rgb(28, 176, 28);
+  box-shadow: 0 0 0 2px rgb(28, 176, 28) inset;
 }
 
 @keyframes logo-pulse {

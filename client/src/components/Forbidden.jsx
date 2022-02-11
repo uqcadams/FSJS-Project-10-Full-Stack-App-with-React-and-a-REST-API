@@ -1,5 +1,9 @@
 import React from "react";
 
+/**
+ * Describes a "Forbidden" route for unauthorised users who lack appropriate credentials to access a secured or private resource.
+ * @returns {function} a stateless functional react component.
+ */
 const Forbidden = () => {
   return (
     <div className="wrap">

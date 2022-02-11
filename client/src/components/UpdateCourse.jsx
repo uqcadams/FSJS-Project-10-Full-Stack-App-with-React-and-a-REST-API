@@ -4,14 +4,13 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { CourseManagerContext } from "./Context/index";
 
 const UpdateCourse = () => {
+  let history = useNavigate();
   const { id } = useParams();
   const context = useContext(CourseManagerContext);
   const authUser = context.authenticatedUser;
-  let history = useNavigate();
 
   // State Management
   const [isLoading, setIsLoading] = useState(false);
-  const [courseData, setCourseData] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [estimatedTime, setEstimatedTime] = useState("");
@@ -20,9 +19,42 @@ const UpdateCourse = () => {
   const [lastName, setLastName] = useState("");
   const [errors, setErrors] = useState([]);
 
+  /**
+   * Side effects to implement on course update page.
+   * Course data is called from the API, and stored in local state. This is used to populate form fields with existing content.
+   */
+  useEffect(() => {
+    context.data
+      .getCourseById(id)
+      .then((course) => {
+        setTitle(course.title);
+        setDescription(course.description);
+        setEstimatedTime(course.estimatedTime);
+        setMaterialsNeeded(course.materialsNeeded);
+        setFirstName(course.associatedUser.firstName);
+        setLastName(course.associatedUser.lastName);
+      })
+      .catch((err) => {
+        console.error(
+          `[UpdateCourse.jsx]: An error has occurred while fetching course data with getCourseById(id). Error details: `,
+          err
+        );
+        history("./error", { replace: true });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [context.data, history, id]);
+
+  /**
+   * DESCRIPTION: LIVE FORM INPUT FIELD UPDATE AND STORAGE.
+   * Takes user input from the form fields in the form of an event object. Allows for the dynamic extraction and manipulation of event.target.value input fields.
+   * @param {object} event - the data stored in the input field
+   * The event.target.name value (the name of the input field) is used to determine and update the corresponding state fields via the useState() hook.
+   * @returns updated state for the target field.
+   */
   const change = (event) => {
     const value = event.target.value;
-
     switch (event.target.name) {
       case "title":
         setTitle(value);
@@ -41,6 +73,9 @@ const UpdateCourse = () => {
     }
   };
 
+  /**
+   * Form submission functionality for updating course content for a pre-existing course in the dataset.
+   */
   const submit = () => {
     const course = {
       id,
@@ -50,54 +85,37 @@ const UpdateCourse = () => {
       materialsNeeded,
       userId: authUser.id,
     };
-    const emailAddress = context.authenticatedUser.emailAddress;
-    const password = context.authenticatedUser.password;
+
     context.data
-      .updateCourse(course, emailAddress, password)
+      .updateCourse(course, authUser.emailAddress, authUser.password)
       .then((errors) => {
         if (errors.length) {
-          console.log("Errors occured when updating a course");
+          console.error(
+            `[UpdateCourse.jsx]: Validation errors occurred while updating course content with updateCourse().`
+          );
           setErrors(errors);
         } else {
-          console.log("Course updated successfully");
+          console.log(
+            `[UpdateCourse.jsx]: Course id "${id}" was successfully updated.`
+          );
           history(`/courses/${id}`, { replace: true });
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(
+          `[UpdateCourse.jsx]: An error occurred while updating course content with updateCourse(). Error:  `,
+          err
+        );
         history("/error", { replace: true });
       });
   };
 
+  /**
+   * Cancels the attempt to update the course, and returns the user to the previous page without saving modifications.
+   */
   const cancel = () => {
     history(-1);
   };
-
-  // Hooks
-  console.log(`Loading state: ${isLoading}`);
-  useEffect(() => {
-    console.log("Attempting to fetch data...");
-    context.data
-      .getCourseById(id)
-      .then((course) => {
-        console.log(`Course data was received...`);
-        setTitle(course.title);
-        setDescription(course.description);
-        setEstimatedTime(course.estimatedTime);
-        setMaterialsNeeded(course.materialsNeeded);
-        setFirstName(course.associatedUser.firstName);
-        setLastName(course.associatedUser.lastName);
-        setCourseData(course);
-      })
-      .catch((err) => {
-        console.log("An error has occurred...");
-        history("./error", { replace: true });
-      })
-      .finally(() => {
-        console.log("Loading is being set to false");
-        setIsLoading(false);
-      });
-  }, [context.data, history, id]);
 
   return isLoading ? (
     <h2>Loading...</h2>
