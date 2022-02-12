@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { CourseManagerContext } from "./Context/index";
-import Logo from "./Logo";
+import Logo from "../assets/Logo";
 
 /**
  * Header component that conditionally renders appropriate fields based on current authentication status.

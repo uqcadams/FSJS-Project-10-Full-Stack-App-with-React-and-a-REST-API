@@ -1,4 +1,10 @@
 /* global.css */
+
+:root {
+  --primary: #00796b;
+  --primary-light: #48a999;
+  --primary-dark: #004c40;
+}
 * {
   box-sizing: border-box;
 }
@@ -333,12 +339,13 @@ textarea:focus {
 
 .cancel-delete {
   background-color: rgb(207, 30, 30);
+  /* margin-right: 10px; */
 }
 
-.confirm-delete {
+/* .confirm-delete {
   color: rgb(28, 176, 28);
   box-shadow: 0 0 0 2px rgb(28, 176, 28) inset;
-}
+} */
 
 @keyframes logo-pulse {
   0% {
@@ -389,6 +396,16 @@ textarea:focus {
   transform-origin: 50% 50%;
   /* animation: logo-pulse 3s infinite; */
   margin-bottom: 0.45em;
+  fill: white;
+}
+
+.delete--content {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.delete--icon {
   fill: white;
 }
 

@@ -3,6 +3,7 @@ import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { CourseManagerContext } from "./Context/index";
 import ReactMarkdown from "react-markdown";
 import Loading from "./Loading";
+import DeleteIcon from "../assets/DeleteIcon";
 
 const CourseDetail = () => {
   let history = useNavigate();
@@ -148,14 +149,17 @@ const CourseDetail = () => {
               className="button cancel-delete"
               onClick={handleDeleteConfirmation}
             >
-              No
+              <div className="delete--content">
+                <DeleteIcon />
+                <span>Delete</span>
+              </div>
             </button>
 
             <button
               className="button button-secondary confirm-delete"
               onClick={handleDeleteCourse}
             >
-              Yes
+              Keep
             </button>
           </div>
         </div>
