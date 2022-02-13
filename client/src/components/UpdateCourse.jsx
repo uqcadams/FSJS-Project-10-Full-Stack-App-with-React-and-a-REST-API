@@ -26,13 +26,27 @@ const UpdateCourse = () => {
   useEffect(() => {
     context.data
       .getCourseById(id)
-      .then((course) => {
-        setTitle(course.title);
-        setDescription(course.description);
-        setEstimatedTime(course.estimatedTime);
-        setMaterialsNeeded(course.materialsNeeded);
-        setFirstName(course.associatedUser.firstName);
-        setLastName(course.associatedUser.lastName);
+      .then((response) => {
+        if (response.status === 404) {
+          console.error(
+            `[UpdateCourse.jsx]: The course record requested with getCourseById(id) does not exist. Course ID reference: "${id}".`
+          );
+          history("/notfound", { replace: true });
+        } else if (
+          response.associatedUser.emailAddress !== authUser.emailAddress
+        ) {
+          console.error(
+            `[UpdateCourse.jsx]: User "${authUser.emailAddress}" is not authorised to modify the course records for course owned by user "${response.associatedUser.emailAddress}". Access is denied.`
+          );
+          history("/forbidden", { replace: true });
+        } else {
+          setTitle(response.title);
+          setDescription(response.description);
+          setEstimatedTime(response.estimatedTime);
+          setMaterialsNeeded(response.materialsNeeded);
+          setFirstName(response.associatedUser.firstName);
+          setLastName(response.associatedUser.lastName);
+        }
       })
       .catch((err) => {
         console.error(
@@ -120,7 +134,7 @@ const UpdateCourse = () => {
   return isLoading ? (
     <h2>Loading...</h2>
   ) : (
-    <div className="wrap">
+    <div className="wrap main">
       <h2>Update Course</h2>
 
       <Form
@@ -131,7 +145,7 @@ const UpdateCourse = () => {
         elements={() => (
           <React.Fragment>
             <div className="main--flex">
-              <div>
+              <div className="form--flex">
                 <label>
                   Course Title
                   <input
@@ -158,7 +172,7 @@ const UpdateCourse = () => {
                   />
                 </label>
               </div>
-              <div>
+              <div className="form--flex">
                 <label>
                   Estimated Time
                   <input

@@ -26,13 +26,14 @@ const Authenticated = () => {
       }, 1000);
       return () => clearInterval(interval);
     } else {
+      console.log(history);
       history(-1, { replace: true });
     }
   });
 
   return (
     <React.Fragment>
-      <div className="auth--centered">
+      <div className="auth--centered main">
         <h2>Authentication Successful!</h2>
         <p>
           Your login credentials have been accepted,

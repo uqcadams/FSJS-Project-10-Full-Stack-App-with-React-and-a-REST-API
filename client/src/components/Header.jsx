@@ -14,7 +14,7 @@ const Header = () => {
   const history = useNavigate();
 
   return (
-    <header>
+    <header className="header">
       <div className="wrap header--flex">
         <div className="header--banner" onClick={() => history("/")}>
           <Logo className="header--logo" />

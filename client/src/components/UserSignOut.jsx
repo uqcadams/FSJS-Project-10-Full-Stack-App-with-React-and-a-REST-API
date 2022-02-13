@@ -35,7 +35,7 @@ const SignOut = () => {
 
   return (
     <React.Fragment>
-      <div className="auth--centered">
+      <div className="auth--centered main">
         <h2>Signing out...</h2>
         <p>Sorry to see you go, {authenticatedUser.firstName}!</p>
         <p>Signing you out and clearing browser authentication credentials.</p>

@@ -98,7 +98,7 @@ const CreateCourse = () => {
         elements={() => (
           <React.Fragment>
             <div className="main--flex">
-              <div>
+              <div className="form--flex">
                 <label>
                   Course Title
                   <input
@@ -111,10 +111,7 @@ const CreateCourse = () => {
                   />
                 </label>
                 <p>
-                  By{" "}
-                  {context.authenticatedUser.firstName +
-                    " " +
-                    context.authenticatedUser.lastName}
+                  By {authUser.firstName} {authUser.lastName}
                 </p>
                 <label>
                   Course Description
@@ -128,7 +125,7 @@ const CreateCourse = () => {
                   />
                 </label>
               </div>
-              <div>
+              <div className="form--flex">
                 <label>
                   Estimated Time
                   <input
@@ -147,7 +144,6 @@ const CreateCourse = () => {
                     asterix ( " <span>*</span> " ).
                   </p>
                   <textarea
-                    className="materials--needed"
                     id="materialsNeeded"
                     name="materialsNeeded"
                     type="text"

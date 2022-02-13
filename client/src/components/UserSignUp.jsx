@@ -93,7 +93,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="form--centered">
+    <div className="form--centered main">
       <h2>Sign Up</h2>
 
       <Form
@@ -152,7 +152,7 @@ const SignUp = () => {
         )}
       />
 
-      <p>
+      <p className="authentication--link">
         Already have a user account? <Link to="/signin">Click here</Link> to
         sign in!
       </p>

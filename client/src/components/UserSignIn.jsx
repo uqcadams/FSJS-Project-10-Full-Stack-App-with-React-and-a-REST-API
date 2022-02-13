@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import Form from "./Form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import { CourseManagerContext } from "./Context/index";
 
 const SignIn = () => {
@@ -67,47 +67,53 @@ const SignIn = () => {
   };
 
   return (
-    <div className="form--centered">
-      <h2>Sign In</h2>
+    <React.Fragment>
+      {context.auth ? (
+        <Navigate to="/" />
+      ) : (
+        <div className="form--centered main">
+          <h2>Sign In</h2>
 
-      <Form
-        cancel={cancel}
-        submit={submit}
-        errors={errors}
-        submitButtonText="Sign In"
-        elements={() => (
-          <React.Fragment>
-            <label>
-              Email Address
-              <input
-                id="emailAddress"
-                name="emailAddress"
-                type="email"
-                value={emailAddress}
-                onChange={change}
-                placeholder="Email Address"
-              />
-            </label>
-            <label>
-              Password
-              <input
-                id="password"
-                name="password"
-                type="password"
-                value={password}
-                onChange={change}
-                placeholder="Password"
-              />
-            </label>
-          </React.Fragment>
-        )}
-      />
+          <Form
+            cancel={cancel}
+            submit={submit}
+            errors={errors}
+            submitButtonText="Sign In"
+            elements={() => (
+              <React.Fragment>
+                <label>
+                  Email Address
+                  <input
+                    id="emailAddress"
+                    name="emailAddress"
+                    type="email"
+                    value={emailAddress}
+                    onChange={change}
+                    placeholder="Email Address"
+                  />
+                </label>
+                <label>
+                  Password
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    value={password}
+                    onChange={change}
+                    placeholder="Password"
+                  />
+                </label>
+              </React.Fragment>
+            )}
+          />
 
-      <p>
-        Don't have a user account? <Link to="/signup">Click here</Link> to sign
-        up!
-      </p>
-    </div>
+          <p className="authentication--link">
+            Don't have a user account? <Link to="/signup">Click here</Link> to
+            sign up!
+          </p>
+        </div>
+      )}
+    </React.Fragment>
   );
 };
 

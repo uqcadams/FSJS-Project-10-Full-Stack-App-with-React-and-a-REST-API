@@ -57,7 +57,7 @@ export const Provider = (props) => {
    * @param {string} password - the password to match during authentication
    * @returns updated authenticatedUser details and auth status in global state, and updates browser cookies to hold user credentials.
    */
-  const handleSignIn = async (username, password) => {
+  const signIn = async (username, password) => {
     const user = await data.getUser(username, password);
     if (user !== null) {
       console.log(`User "${username}" was successfully authenticated.`);
@@ -75,7 +75,7 @@ export const Provider = (props) => {
    * User sign out function. Resets authenticated user credentials to null in the global state via the React Context API.
    * Without authentication, a new user will need to sign in again to access protected routes.
    */
-  const handleSignOut = () => {
+  const signOut = () => {
     setAuthenticatedUser(null);
     setAuth(false);
     Cookies.remove("authenticatedUser");
@@ -98,8 +98,8 @@ export const Provider = (props) => {
       setCourseView: handleCourseView,
       getAllIndices: handleAllIndices,
       getMyIndices: handleMyIndices,
-      signOut: handleSignOut,
-      signIn: handleSignIn,
+      signOut,
+      signIn,
     },
   };
 

@@ -4,6 +4,7 @@ import { CourseManagerContext } from "./Context/index";
 import ReactMarkdown from "react-markdown";
 import Loading from "./Loading";
 import DeleteIcon from "../assets/DeleteIcon";
+import GoBack from "../assets/GoBack";
 
 const CourseDetail = () => {
   let history = useNavigate();
@@ -102,72 +103,77 @@ const CourseDetail = () => {
     // Note: Loading component will display only after a timed interval defined within that component.
     <Loading />
   ) : (
-    <React.Fragment>
-      <div className="actions--bar">
-        <div className="wrap">
-          {/* A user must be authenticated, and match the credentials of the fetched course record to access update and delete functionalities. */}
-          {authUser && authUser.id === courseData.userId ? (
-            <React.Fragment>
-              <Link className="button" to={`/courses/${id}/update`}>
-                Update Course
-              </Link>
-              <Link
-                className={`button ${
-                  deleteConfirmation ? "button--active" : ""
-                }`}
-                to={{}}
-                onClick={handleDeleteConfirmation}
-              >
-                Delete Course
-              </Link>
-            </React.Fragment>
-          ) : (
-            <></>
-          )}
-          {/* Conditional rendering based on current enabled course view. If "My Courses" is selected, the return button will redirect to the users course list. If "All Courses" is selected, the return button will always return to the full course list. */}
-          {context.currentCourseView === "myCourses" ? (
-            <Link className="button button-secondary" to={"/mycourses"}>
-              Return to My Courses
-            </Link>
-          ) : (
-            <Link className="button button-secondary" to="/">
-              Return to Course List
-            </Link>
-          )}
-        </div>
-      </div>
-      {/* If the user has clicked the "Delete Course" button, a confirmation dialogue renders to confirm their choice. This is in line with error prevention usability guidelines, to safeguard against irreversible changes resulting from user errors. */}
-      {deleteConfirmation ? (
+    <div className="main">
+      <div className="actions--bar--shadow">
         <div className="actions--bar">
           <div className="wrap">
-            <div>
-              Are you sure you want to delete this course? This action cannot be
-              undone.
-            </div>
-            <br></br>
-            <button
-              className="button cancel-delete"
-              onClick={handleDeleteConfirmation}
-            >
-              <div className="delete--content">
-                <DeleteIcon />
-                <span>Delete</span>
-              </div>
-            </button>
-
-            <button
-              className="button button-secondary confirm-delete"
-              onClick={handleDeleteCourse}
-            >
-              Keep
-            </button>
+            {/* A user must be authenticated, and match the credentials of the fetched course record to access update and delete functionalities. */}
+            {authUser && authUser.id === courseData.userId ? (
+              <React.Fragment>
+                <Link className="button" to={`/courses/${id}/update`}>
+                  Update Course
+                </Link>
+                <Link
+                  className={`button ${
+                    deleteConfirmation ? "button--active" : ""
+                  }`}
+                  to={{}}
+                  onClick={handleDeleteConfirmation}
+                >
+                  Delete Course
+                </Link>
+              </React.Fragment>
+            ) : (
+              <></>
+            )}
+            {/* Conditional rendering based on current enabled course view. If "My Courses" is selected, the return button will redirect to the users course list. If "All Courses" is selected, the return button will always return to the full course list. */}
+            {context.currentCourseView === "myCourses" ? (
+              <Link className="button button-secondary" to={"/mycourses"}>
+                Return to My Courses
+              </Link>
+            ) : (
+              <Link className="button button-secondary" to="/">
+                Return to Course List
+              </Link>
+            )}
           </div>
         </div>
-      ) : (
-        <></>
-      )}
+        {/* If the user has clicked the "Delete Course" button, a confirmation dialogue renders to confirm their choice. This is in line with error prevention usability guidelines, to safeguard against irreversible changes resulting from user errors. */}
+        {deleteConfirmation ? (
+          <div className="actions--bar deletion--dialogue">
+            <div className="wrap">
+              <div className="confirmation--dialogue">
+                Are you sure you want to delete this course? This action cannot
+                be undone.
+              </div>
+
+              <button
+                className="button button--delete confirm-delete"
+                onClick={handleDeleteCourse}
+              >
+                <div className="delete--content">
+                  <DeleteIcon />
+                  <span>Delete</span>
+                </div>
+              </button>
+
+              <button
+                className="button button--delete cancel-delete"
+                onClick={handleDeleteConfirmation}
+              >
+                <div className="delete--content">
+                  <GoBack />
+                  <span>Keep</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
       <div className="wrap">
-        <h2>Course Detail</h2>
+        <h2 className="course--header">Course Detail</h2>
         <form>
           <div className="main--flex">
             <div>
@@ -194,7 +200,7 @@ const CourseDetail = () => {
           </div>
         </form>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 
