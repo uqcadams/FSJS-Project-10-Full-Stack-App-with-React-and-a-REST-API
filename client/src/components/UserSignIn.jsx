@@ -42,7 +42,7 @@ const SignIn = () => {
       .then((user) => {
         if (user === null) {
           setErrors([
-            `[UserSignIn.jsx]: Sign in was unsuccessful for user ${emailAddress} with signIn(...).`,
+            `Sign in was not successful. Please check your credentials and try again.`,
           ]);
         } else {
           console.log(
