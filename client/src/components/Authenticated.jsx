@@ -11,7 +11,7 @@ import { CourseManagerContext } from "./Context";
 const Authenticated = () => {
   const history = useNavigate();
   const { authenticatedUser } = useContext(CourseManagerContext);
-  const [timer, setTimer] = useState(5);
+  const [timer, setTimer] = useState(3);
 
   /**
    * Interval timer functionality is mounted when the authentication component is rendered. When the countdown timer reaches 0, the user is redirected to their last accessed route.

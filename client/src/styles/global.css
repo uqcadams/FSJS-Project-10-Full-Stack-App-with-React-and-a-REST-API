@@ -1,5 +1,6 @@
 /* global.css */
 
+/* ADDED CUSTOM ROOT VARIABLES */
 :root {
   --primary: #546e7a;
   --primary-light: #708791;
@@ -43,7 +44,7 @@ p {
   font-weight: 300;
   margin-bottom: 1.5rem;
   line-height: 1.5;
-  hyphens: auto;
+  /* hyphens: auto; */
 }
 a {
   /* color: #939; */
@@ -371,9 +372,11 @@ textarea:focus {
 }
 
 .auth--centered {
+  background-color: var(--secondary);
   max-width: 510px;
   margin: 4em auto 0;
-  padding: 0 1rem;
+  padding: 2rem;
+  border-radius: 0.5rem;
 }
 
 .auth--centered h2 {
@@ -381,7 +384,7 @@ textarea:focus {
 }
 
 .auth--centered p {
-  font-size: 0.85em;
+  font-size: 0.9em;
 }
 
 .auth--centered button {

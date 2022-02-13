@@ -10,7 +10,7 @@ import { CourseManagerContext } from "./Context/index";
 const SignOut = () => {
   let history = useNavigate();
   const { actions, authenticatedUser } = useContext(CourseManagerContext);
-  const [timer, setTimer] = useState(5);
+  const [timer, setTimer] = useState(3);
 
   /**
    * Interval timer functionality is mounted when the SignOut component is rendered. When the countdown timer reaches 0, sign out function is called amd the user is redirected to the homepage.
