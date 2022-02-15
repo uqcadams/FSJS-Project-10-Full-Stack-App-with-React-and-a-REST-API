@@ -39,6 +39,7 @@ const Courses = () => {
         );
         history("/error", { replace: true });
       });
+    // eslint-disable-next-line
   }, []);
 
   /**

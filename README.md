@@ -33,6 +33,7 @@ This course management system was developed as part of the Full Stack JavaScript
 - [13 Feb 2022] - Clarified routing for <SignIn /> to redirect to home page if the user is already authenticated. This fixes a bug where a user who signs up after redirecting from the sign in page is then returned to sign in after authentication.
 - [13 Feb 2022] - Keep and delete confirmation dialogue redesigned with proper functionalities.
 - [13 Feb 2022] - Colour scheme finalised.
+- [14 Feb 2022] - Fixed programmatic routing on the UserSignIn component.
 
 ## Functionalities
 

@@ -48,7 +48,10 @@ const SignIn = () => {
           console.log(
             `[UserSignIn.jsx]: Sign in was successful for user ${emailAddress}.`
           );
-          history("/authenticated", { replace: true });
+          // if (context.auth) {
+          //   console.log(`Auth set to true`);
+          // }
+          // history("/authenticated");
         }
       })
       .catch((err) => {
@@ -69,7 +72,7 @@ const SignIn = () => {
   return (
     <React.Fragment>
       {context.auth ? (
-        <Navigate to="/" />
+        <Navigate to="/authenticated" replace={true} />
       ) : (
         <div className="form--centered main">
           <h2>Sign In</h2>

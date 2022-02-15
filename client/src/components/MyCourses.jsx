@@ -24,23 +24,27 @@ const MyCourses = () => {
    * While mounted, the course view is set to "myCourses", to give context to navigation functions.
    * The corresponding indices of each course ID in the dataset are updated in global state.
    */
-  useEffect(() => {
-    context.data
-      .getMyCourses(authUser.id)
-      .then((response) => {
-        setData(response);
-        setCourseView("myCourses");
-        let myIndices = response.map((course) => course.id);
-        getMyIndices(myIndices);
-      })
-      .catch((err) => {
-        console.error(
-          `[MyCourses.jsx]: An error has occurred while fetching course data with getMyCourse(id). Error details: `,
-          err
-        );
-        history("/error", { replace: true });
-      });
-  }, []);
+  useEffect(
+    () => {
+      context.data
+        .getMyCourses(authUser.id)
+        .then((response) => {
+          setData(response);
+          setCourseView("myCourses");
+          let myIndices = response.map((course) => course.id);
+          getMyIndices(myIndices);
+        })
+        .catch((err) => {
+          console.error(
+            `[MyCourses.jsx]: An error has occurred while fetching course data with getMyCourse(id). Error details: `,
+            err
+          );
+          history("/error", { replace: true });
+        });
+    },
+    // eslint-disable-next-line
+    []
+  );
 
   /**
    * If courses exist, map the data array into course elements to render on the page.

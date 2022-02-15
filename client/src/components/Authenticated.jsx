@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CourseManagerContext } from "./Context";
 
 /**
@@ -26,7 +26,6 @@ const Authenticated = () => {
       }, 1000);
       return () => clearInterval(interval);
     } else {
-      console.log(history);
       history(-1, { replace: true });
     }
   });

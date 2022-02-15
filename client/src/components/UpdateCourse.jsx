@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import Form from "./Form";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CourseManagerContext } from "./Context/index";
 
 const UpdateCourse = () => {
@@ -58,7 +58,7 @@ const UpdateCourse = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [context.data, history, id]);
+  }, [context.data, history, id, authUser.emailAddress]);
 
   /**
    * DESCRIPTION: LIVE FORM INPUT FIELD UPDATE AND STORAGE.

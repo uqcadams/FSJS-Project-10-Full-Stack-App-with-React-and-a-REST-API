@@ -60,13 +60,15 @@ export const Provider = (props) => {
   const signIn = async (username, password) => {
     const user = await data.getUser(username, password);
     if (user !== null) {
-      console.log(`User "${username}" was successfully authenticated.`);
+      console.log(
+        `[Context]: User "${username}" was successfully authenticated.`
+      );
       user.password = password;
       setAuthenticatedUser(user);
       setAuth(true);
       Cookies.set("authenticatedUser", JSON.stringify(user), { expires: 1 });
     } else {
-      console.log(`User "${username}" failed authentication.`);
+      console.log(`[Context]: User "${username}" failed authentication.`);
     }
     return user;
   };
@@ -80,7 +82,7 @@ export const Provider = (props) => {
     setAuth(false);
     Cookies.remove("authenticatedUser");
     console.log(
-      `User has been successfully logged out and cookies removed from browser storage.`
+      `[Context]: User has been successfully logged out and cookies removed from browser storage.`
     );
   };
 
