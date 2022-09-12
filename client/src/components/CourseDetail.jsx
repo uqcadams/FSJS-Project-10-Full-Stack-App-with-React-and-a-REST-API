@@ -31,6 +31,7 @@ const CourseDetail = () => {
           );
           history("/notfound", { replace: true });
         } else {
+          console.log("response", response);
           setCourseData(response);
         }
       })

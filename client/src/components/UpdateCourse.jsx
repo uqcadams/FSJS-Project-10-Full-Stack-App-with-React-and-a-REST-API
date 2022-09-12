@@ -128,6 +128,7 @@ const UpdateCourse = () => {
    * Cancels the attempt to update the course, and returns the user to the previous page without saving modifications.
    */
   const cancel = () => {
+    console.log("UpdateCourse: I wanna go back");
     history(-1);
   };
 

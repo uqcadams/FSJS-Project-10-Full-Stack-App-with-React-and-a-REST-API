@@ -18,6 +18,8 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
+  console.log("Context in UserSignUp:", context);
+
   /**
    * Form input handler. Matches user input value with named input fields, and dynamically updates local state to be used for form submission.
    * @param {*} event - user input within individual form fields.
